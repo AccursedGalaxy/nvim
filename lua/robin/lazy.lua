@@ -22,6 +22,11 @@ spec({
 	"morhetz/gruvbox",
 	as = "gruvbox.nvim",
 })
+spec("folke/tokyonight.nvim")
+spec("sainnhe/everforest")
+spec("sainnhe/gruvbox-material")
+spec("sainnhe/sonokai")
+spec("sainnhe/edge")
 
 -- load transparent and run :TransparentEnable
 spec("xiyaowong/nvim-transparent")
@@ -82,4 +87,6 @@ spec({
 require("lazy").setup({
 	spec = LAZY_PLUGIN_SPEC,
 })
-vim.cmd([[colorscheme gruvbox]])
+
+-- Load colorscheme
+vim.cmd([[colorscheme tokyonight]])

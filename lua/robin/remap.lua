@@ -75,7 +75,7 @@ end
 keymap("n", "<leader>pf", ":lua project_files()<CR>", opts)
 keymap("n", "<leader>gf", ":lua git_files()<CR>", opts)
 
--- Telescope search for text within files
+-- Telescope search for text within files with live_grep
 keymap("n", "<leader>ss", ":Telescope live_grep<CR>", opts)
 
 -- Telescope git pickers
