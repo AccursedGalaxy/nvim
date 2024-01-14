@@ -78,11 +78,6 @@ keymap("n", "<leader>gf", ":lua git_files()<CR>", opts)
 -- Telescope search for text within files with live_grep
 keymap("n", "<leader>ss", ":Telescope live_grep<CR>", opts)
 
--- Telescope git pickers
-keymap("n", "<leader>gb", ":Telescope git_branches<CR>", opts)
-keymap("n", "<leader>gc", ":Telescope git_commits<CR>", opts)
-keymap("n", "<leader>gs", ":Telescope git_status<CR>", opts)
-
 -- Todo Comments Stuff
 vim.keymap.set("n", "gt", function()
 	require("todo-comments").jump_next()

@@ -89,4 +89,4 @@ require("lazy").setup({
 })
 
 -- Load colorscheme
-vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme edge]])
