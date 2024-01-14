@@ -1,3 +1,5 @@
+require("telescope").load_extension("harpoon")
+require("telescope").load_extension("git_worktree")
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
@@ -75,8 +77,10 @@ end
 keymap("n", "<leader>pf", ":lua project_files()<CR>", opts)
 keymap("n", "<leader>gf", ":lua git_files()<CR>", opts)
 
--- Telescope search for text within files with live_grep
+-- Telescope shortcuts
 keymap("n", "<leader>ss", ":Telescope live_grep<CR>", opts)
+vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = "Harpoon [M]arks" }) -- Search marks with Telescope
+vim.keymap.set("n", "<Leader>sr", "<CMD>lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", silent) -- Search git worktrees
 
 -- Todo Comments Stuff
 vim.keymap.set("n", "gt", function()

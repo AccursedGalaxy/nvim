@@ -73,6 +73,7 @@ spec("nvim-telescope/telescope-project.nvim")
 spec("nvim-telescope/telescope-symbols.nvim")
 spec("nvim-telescope/telescope-frecency.nvim")
 spec("rinx/nvim-ripgrep")
+spec("ThePrimeagen/git-worktree.nvim")
 
 -- fugitive and gitgutter
 spec("tpope/vim-fugitive")
