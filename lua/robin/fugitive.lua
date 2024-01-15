@@ -12,7 +12,6 @@ end
 map("n", "<leader>gs", ":G<CR>", { silent = true }) -- Open Fugitive status window
 map("n", "<leader>gc", ":Git commit<CR>", { silent = true }) -- Quick commit
 map("n", "<leader>gp", ":Git push<CR>", { silent = true }) -- Push changes
-map("n", "<leader>gf", ":Git fetch<CR>", { silent = true }) -- Fetch changes
 map("n", "<leader>gl", ":Git pull<CR>", { silent = true }) -- Pull changes
 map("n", "<leader>gd", ":Gvdiffsplit!<CR>", { silent = true }) -- Open vertical diff split
 map("n", "<leader>gb", ":Git blame<CR>", { silent = true }) -- Git blame

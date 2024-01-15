@@ -50,6 +50,12 @@ keymap("n", "<leader>sh", ":split<CR>", opts)
 -- keymap("n", "<C-K>", "<C-w>k", opts)
 -- keymap("n", "<C-L>", "<C-w>l", opts)
 
+-- keybinding for vim-tmux-navigator
+keymap("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>", opts)
+keymap("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", opts)
+keymap("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", opts)
+keymap("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", opts)
+
 -- Find forward and backward with f and F
 keymap("n", "f", "f", opts)
 keymap("n", "F", "F", opts)
@@ -66,16 +72,8 @@ function _G.project_files()
 	})
 end
 
--- function to get the current git repository files
-function _G.git_files()
-	require("telescope.builtin").git_files({
-		prompt_title = "< Git Files >",
-		cwd = vim.fn.expand("%:p:h"),
-	})
-end
-
 keymap("n", "<leader>pf", ":lua project_files()<CR>", opts)
-keymap("n", "<leader>gf", ":lua git_files()<CR>", opts)
+keymap("n", "<leader>gf", ":Telescope git_files<CR>", opts)
 
 -- Telescope shortcuts
 keymap("n", "<leader>ss", ":Telescope live_grep<CR>", opts)

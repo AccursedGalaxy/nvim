@@ -2,6 +2,9 @@
 require("robin.lazy") -- Lazy loading of plugins
 require("robin.options") -- Basic Neovim options and settings
 
+-- Load colorscheme
+vim.cmd([[colorscheme edge]])
+
 -- Key Mappings
 require("robin.remap") -- Custom key mappings
 
@@ -19,7 +22,6 @@ require("robin.todo-comments") -- Todo-comments for enhanced TODOs visibility
 require("robin.nvim-comment") -- Nvim-comment for easy commenting
 require("robin.cmp") -- Nvim-cmp for autocompletion
 require("robin.harpoon") -- Harpoon for quick file navigation
-require("robin.nerdtree") -- NERDTree for file tree navigation
 require("robin.gitgutter") -- Gitgutter for git diff in the sign column
 require("robin.fugitive") -- Fugitive for git integration
 require("robin.ripgrep") -- Ripgrep for fast text search

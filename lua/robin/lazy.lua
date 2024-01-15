@@ -34,7 +34,6 @@ vim.cmd("autocmd VimEnter * TransparentEnable")
 
 -- Lazy plugins
 spec("github/copilot.vim")
-spec("nvim-tree/nvim-web-devicons")
 spec("neovim/nvim-lspconfig")
 spec("williamboman/nvim-lsp-installer")
 spec("b0o/schemastore.nvim")
@@ -46,12 +45,7 @@ spec("nvim-lualine/lualine.nvim")
 spec("terrortylor/nvim-comment")
 spec("nvimtools/none-ls.nvim")
 spec("ThePrimeagen/harpoon") -- Harpoon
-spec({
-	"preservim/nerdtree",
-	as = "nerdtree.nvim",
-})
-spec("kyazdani42/nvim-web-devicons") -- NerdTree Icons
-spec("nvim-lua/popup.nvim") -- NerdTree Popup
+spec("christoomey/vim-tmux-navigator") -- Tmux Navigator
 
 -- CMP Setup including dependencies
 spec("hrsh7th/nvim-cmp")
@@ -75,6 +69,14 @@ spec("nvim-telescope/telescope-frecency.nvim")
 spec("rinx/nvim-ripgrep")
 spec("ThePrimeagen/git-worktree.nvim")
 
+-- Better UI
+spec("kyazdani42/nvim-web-devicons")
+spec("akinsho/nvim-bufferline.lua")
+spec("glepnir/galaxyline.nvim")
+spec("akinsho/nvim-toggleterm.lua")
+spec("folke/which-key.nvim")
+spec("folke/zen-mode.nvim")
+
 -- fugitive and gitgutter
 spec("tpope/vim-fugitive")
 spec("airblade/vim-gitgutter")
@@ -88,6 +90,3 @@ spec({
 require("lazy").setup({
 	spec = LAZY_PLUGIN_SPEC,
 })
-
--- Load colorscheme
-vim.cmd([[colorscheme edge]])
