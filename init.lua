@@ -27,6 +27,7 @@ require("robin.fugitive") -- Fugitive for git integration
 require("robin.ripgrep") -- Ripgrep for fast text search
 require("robin.noice") -- Noice for command line popup
 require("robin.notify")
+require("robin.toggleterm") -- Toggleterm for terminal in a floating window
 
 -- UI Enhancements
 require("robin.lualine") -- Lualine for better status line

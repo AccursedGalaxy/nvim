@@ -46,6 +46,7 @@ spec("terrortylor/nvim-comment")
 spec("nvimtools/none-ls.nvim")
 spec("ThePrimeagen/harpoon") -- Harpoon
 spec("christoomey/vim-tmux-navigator") -- Tmux Navigator
+spec("akinsho/toggleterm.nvim") -- Toggle Term
 
 -- Noice Nvim
 spec("folke/noice.nvim")
