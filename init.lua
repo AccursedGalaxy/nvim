@@ -25,6 +25,8 @@ require("robin.harpoon") -- Harpoon for quick file navigation
 require("robin.gitgutter") -- Gitgutter for git diff in the sign column
 require("robin.fugitive") -- Fugitive for git integration
 require("robin.ripgrep") -- Ripgrep for fast text search
+require("robin.noice") -- Noice for command line popup
+require("robin.notify")
 
 -- UI Enhancements
 require("robin.lualine") -- Lualine for better status line

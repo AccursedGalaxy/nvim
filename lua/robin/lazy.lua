@@ -47,6 +47,11 @@ spec("nvimtools/none-ls.nvim")
 spec("ThePrimeagen/harpoon") -- Harpoon
 spec("christoomey/vim-tmux-navigator") -- Tmux Navigator
 
+-- Noice Nvim
+spec("folke/noice.nvim")
+spec("MunifTanjim/nui.nvim")
+spec("rcarriga/nvim-notify")
+
 -- CMP Setup including dependencies
 spec("hrsh7th/nvim-cmp")
 spec("hrsh7th/cmp-nvim-lsp") -- LSP completion source

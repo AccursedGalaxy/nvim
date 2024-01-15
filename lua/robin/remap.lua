@@ -11,6 +11,8 @@ vim.g.maplocalleader = " "
 -- This is a fix for the <C-i> key being the same as <Tab>
 keymap("n", "<C-i>", "<C-i>", opts)
 
+keymap("n", "<leader>q", ":q<CR>", opts)
+
 -- Back to netrw
 keymap("n", "<leader>pv", ":Ex<CR>", opts)
 
