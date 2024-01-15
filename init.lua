@@ -3,7 +3,7 @@ require("robin.lazy") -- Lazy loading of plugins
 require("robin.options") -- Basic Neovim options and settings
 
 -- Load colorscheme
-vim.cmd([[colorscheme edge]])
+vim.cmd([[colorscheme tokyonight]])
 
 -- Key Mappings
 require("robin.remap") -- Custom key mappings
