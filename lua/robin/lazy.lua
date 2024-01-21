@@ -84,6 +84,7 @@ spec("akinsho/nvim-toggleterm.lua")
 spec("folke/which-key.nvim")
 spec("folke/zen-mode.nvim")
 spec("karb94/neoscroll.nvim")
+spec("folke/zen-mode.nvim")
 
 -- fugitive and gitgutter
 spec("tpope/vim-fugitive")

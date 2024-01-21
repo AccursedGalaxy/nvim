@@ -29,6 +29,7 @@ require("robin.noice") -- Noice for command line popup
 require("robin.notify")
 require("robin.toggleterm") -- Toggleterm for terminal in a floating window
 require("robin.neoscroll") -- Neoscroll for smooth scrolling
+require("robin.zenmode") -- Zenmode for distraction-free writing
 
 -- UI Enhancements
 require("robin.lualine") -- Lualine for better status line
