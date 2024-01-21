@@ -27,7 +27,7 @@ harpoon.setup({
 })
 
 -- Set shortcuts to quickly navigate between marks
-map("n", "<C-h>", ':lua require("harpoon.ui").nav_file(1)<CR>')
+map("n", "<C-b>", ':lua require("harpoon.ui").nav_file(1)<CR>')
 map("n", "<C-t>", ':lua require("harpoon.ui").nav_file(2)<CR>')
 map("n", "<C-s>", ':lua require("harpoon.ui").nav_file(3)<CR>')
 map("n", "<C-n>", ':lua require("harpoon.ui").nav_file(4)<CR>')

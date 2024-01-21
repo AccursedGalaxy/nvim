@@ -30,10 +30,10 @@ spec("sainnhe/edge")
 
 -- load transparent and run :TransparentEnable
 spec("xiyaowong/nvim-transparent")
-vim.cmd("autocmd VimEnter * TransparentEnable")
 
 -- Lazy plugins
 spec("github/copilot.vim")
+spec("MunifTanjim/nui.nvim")
 spec("neovim/nvim-lspconfig")
 spec("williamboman/nvim-lsp-installer")
 spec("b0o/schemastore.nvim")
@@ -47,6 +47,7 @@ spec("nvimtools/none-ls.nvim")
 spec("ThePrimeagen/harpoon") -- Harpoon
 spec("christoomey/vim-tmux-navigator") -- Tmux Navigator
 spec("akinsho/toggleterm.nvim") -- Toggle Term
+spec({ "ellisonleao/glow.nvim", config = true, cmd = "Glow" })
 
 -- Noice Nvim
 spec("folke/noice.nvim")
@@ -82,6 +83,7 @@ spec("glepnir/galaxyline.nvim")
 spec("akinsho/nvim-toggleterm.lua")
 spec("folke/which-key.nvim")
 spec("folke/zen-mode.nvim")
+spec("karb94/neoscroll.nvim")
 
 -- fugitive and gitgutter
 spec("tpope/vim-fugitive")

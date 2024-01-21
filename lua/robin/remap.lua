@@ -28,6 +28,9 @@ keymap("n", "<C-k>", ":m .-2<CR>==", opts)
 keymap("v", "<C-j>", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "<C-k>", ":m '<-2<CR>gv=gv", opts)
 
+-- Select Word
+keymap("n", "<leader>w", "viw", opts)
+
 -- Move half page up and down and keep cursor in the middle
 keymap("n", "<C-u>", "<C-u>zz", opts)
 keymap("n", "<C-d>", "<C-d>zz", opts)
@@ -46,17 +49,11 @@ keymap("v", "L", "$", opts)
 keymap("n", "<leader>sv", ":vsplit<CR>", opts)
 keymap("n", "<leader>sh", ":split<CR>", opts)
 
--- Navigate splits with Ctrl + hjkl
--- keymap("n", "<C-H>", "<C-w>h", opts)
--- keymap("n", "<C-J>", "<C-w>j", opts)
--- keymap("n", "<C-K>", "<C-w>k", opts)
--- keymap("n", "<C-L>", "<C-w>l", opts)
-
--- keybinding for vim-tmux-navigator
-keymap("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>", opts)
-keymap("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", opts)
-keymap("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", opts)
-keymap("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", opts)
+-- Move between splits
+keymap("n", "<C-h>", "<C-w>h", opts)
+keymap("n", "<C-j>", "<C-w>j", opts)
+keymap("n", "<C-k>", "<C-w>k", opts)
+keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Find forward and backward with f and F
 keymap("n", "f", "f", opts)
