@@ -76,6 +76,14 @@ keymap("n", "<leader>gf", ":Telescope git_files<CR>", opts)
 
 -- Telescope shortcuts
 keymap("n", "<leader>ss", ":Telescope live_grep<CR>", opts)
+keymap("n", "<leader>sb", ":Telescope buffers<CR>", opts)
+-- Search inside git files with live_grep and git_files
+keymap(
+	"n",
+	"<leader>sg",
+	":lua require('telescope.builtin').live_grep({ search_dirs = { vim.fn.expand('%:p:h') } })<CR>",
+	opts
+)
 vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = "Harpoon [M]arks" }) -- Search marks with Telescope
 
 -- Todo Comments Stuff
