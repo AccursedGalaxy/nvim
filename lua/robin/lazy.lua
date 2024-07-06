@@ -27,12 +27,15 @@ spec("sainnhe/everforest")
 spec("sainnhe/gruvbox-material")
 spec("sainnhe/sonokai")
 spec("sainnhe/edge")
+spec({
+	"craftzdog/solarized-osaka.nvim",
+	lazy = true,
+})
 
 -- load transparent and run :TransparentEnable
-spec("xiyaowong/nvim-transparent")
+spec({ "xiyaowong/nvim-transparent", run = ":TransparentEnable" })
 
 -- Lazy plugins
-spec("github/copilot.vim")
 spec("MunifTanjim/nui.nvim")
 spec("neovim/nvim-lspconfig")
 spec("williamboman/nvim-lsp-installer")
@@ -61,8 +64,26 @@ spec("hrsh7th/cmp-buffer") -- Buffer completion source
 spec("hrsh7th/cmp-path") -- Path completion source
 spec("hrsh7th/cmp-cmdline") -- Cmdline completion source
 spec("saadparwaiz1/cmp_luasnip") -- Snippet completion source
+spec("github/copilot.vim")
 spec("L3MON4D3/LuaSnip") -- Snippet engine
 spec("rafamadriz/friendly-snippets") -- Snippet collection
+spec({
+	"zbirenbaum/copilot.lua",
+	event = "InsertEnter",
+	config = function()
+		require("copilot").setup({
+			suggestion = { enabled = false },
+			panel = { enabled = false },
+		})
+	end,
+})
+spec({
+	"zbirenbaum/copilot-cmp",
+	after = { "copilot.lua" },
+	config = function()
+		require("copilot_cmp").setup()
+	end,
+})
 
 -- Mason Setup
 spec("williamboman/mason.nvim")

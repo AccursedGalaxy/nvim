@@ -1,7 +1,9 @@
--- I did this shit to make sure <Tab> autocompletion is working in .md and .vimwiki files
--- was annoying to find out... but hey... now it works... yayayayayay!
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "vimwiki", "markdown" },
-	command = "silent! iunmap <buffer> <Tab>",
+-- Disable default Copilot tab mapping
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+
+-- Configure Copilot Lua integration
+require("copilot").setup({
+	suggestion = { enabled = false },
+	panel = { enabled = false },
 })
-vim.api.nvim_set_keymap("i", "<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = true, noremap = true })
