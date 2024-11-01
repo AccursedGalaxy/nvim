@@ -55,10 +55,6 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
--- Find forward and backward with f and F
-keymap("n", "f", "f", opts)
-keymap("n", "F", "F", opts)
-
 -- Find and replace
 keymap("n", "<leader>rr", ":%s//g<Left><Left>", opts)
 
