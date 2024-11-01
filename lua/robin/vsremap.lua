@@ -8,6 +8,17 @@ if vim.g.vscode then
 	local keymap = vim.keymap.set
 	local opts = { noremap = true, silent = true }
 
+	-- Function to call vscode commands
+	local function vscode_command(command)
+		return function()
+			vscode.call(command)
+			-- vim.fn.VSCodeNotify(command)
+		end
+	end
+
+	-- fzf and rg commands
+	keymap("n", "<leader>ss", vscode_command("fzf: Search in Project Root (.git) using rg and fzf"))
+
 	-- Highlighting Management
 	keymap("n", "<leader><leader>", "<Cmd>nohlsearch<CR>", opts)
 
@@ -24,15 +35,9 @@ if vim.g.vscode then
 	keymap("n", "<C-j>", ":m .+1<CR>==", opts)
 	keymap("n", "<C-k>", ":m .-2<CR>==", opts)
 
-	-- Telescope equivalent commands via VSCode
-	keymap("n", "<leader>ss", function()
-		vscode.action("workbench.action.findInFiles")
-	end, opts)
-	-- Find function definitions in the current file
 	keymap("n", "<leader>gd", function()
 		vscode.action("editor.action.goToDeclaration")
 	end, opts)
-	-- Find references to the current function
 	keymap("n", "<leader>gr", function()
 		vscode.action("editor.action.referenceSearch.trigger")
 	end, opts)
