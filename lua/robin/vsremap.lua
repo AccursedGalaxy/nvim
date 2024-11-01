@@ -8,6 +8,9 @@ if vim.g.vscode then
 	local keymap = vim.keymap.set
 	local opts = { noremap = true, silent = true }
 
+	-- Highlighting Management
+	keymap("n", "<leader><leader>", "<Cmd>nohlsearch<CR>", opts)
+
 	-- Leader-based shortcuts
 	keymap("n", "<leader>q", function()
 		vscode.call("workbench.action.closeActiveEditor")
@@ -22,9 +25,6 @@ if vim.g.vscode then
 	keymap("n", "<C-k>", ":m .-2<CR>==", opts)
 
 	-- Telescope equivalent commands via VSCode
-	keymap("n", "<leader>pf", function()
-		vscode.action("workbench.action.quickOpen")
-	end, opts)
 	keymap("n", "<leader>ss", function()
 		vscode.action("workbench.action.findInFiles")
 	end, opts)
