@@ -32,7 +32,6 @@ rg.setup({
 	-- These are mappings for navigating and manipulating the search results.
 	mappings = {
 		open_file = "<CR>", -- Key to open a file from the results
-		open_file_split = "<C-s>", -- Key to open a file in a horizontal split
 		open_file_vsplit = "<C-v>", -- Key to open a file in a vertical split
 		open_file_tab = "<C-t>", -- Key to open a file in a new tab
 		preview_file = "p", -- Key to preview the file
