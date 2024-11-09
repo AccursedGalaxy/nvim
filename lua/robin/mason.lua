@@ -1,6 +1,6 @@
 -- Mason Setup
 require("mason").setup({
-	log_level = vim.log.levels.DEBUG,
+	log_level = vim.log.levels.INFO,
 	ui = {
 		icons = {
 			package_installed = "✓",
