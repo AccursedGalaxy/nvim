@@ -105,7 +105,29 @@ spec("akinsho/nvim-toggleterm.lua")
 spec("folke/which-key.nvim")
 spec("folke/zen-mode.nvim")
 spec("karb94/neoscroll.nvim")
-spec("j-hui/fidget.nvim")
+spec({
+	"j-hui/fidget.nvim",
+	config = function()
+		require("fidget").setup({
+			-- You can customize options here. The default setup should be enough in most cases.
+			text = {
+				spinner = "dots", -- Choose your preferred spinner animation
+			},
+			align = {
+				bottom = true, -- Align spinners at the bottom of the screen
+				right = true, -- Align spinners to the right
+			},
+			timer = {
+				spinner_rate = 125, -- Spinner update rate in milliseconds
+				fidget_decay = 2000, -- How long to keep around completed fidget
+				task_decay = 1000, -- How long to keep completed tasks
+			},
+			window = {
+				blend = 0, -- Transparency of the window (0 = opaque, 100 = fully transparent)
+			},
+		})
+	end,
+})
 
 -- Cloak for Hiding Sensative Information
 spec("laytan/cloak.nvim")
