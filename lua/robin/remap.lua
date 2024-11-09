@@ -20,10 +20,6 @@ keymap("n", "<leader>pv", ":Ex<CR>", opts)
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
--- Move lines up and down
-keymap("n", "<C-j>", ":m .+1<CR>==", opts)
-keymap("n", "<C-k>", ":m .-2<CR>==", opts)
-
 -- Move lines up and down in visual mode
 keymap("v", "<C-j>", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "<C-k>", ":m '<-2<CR>gv=gv", opts)
@@ -82,6 +78,9 @@ keymap(
 	opts
 )
 vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = "Harpoon [M]arks" }) -- Search marks with Telescope
+
+-- Go To Definition
+keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 
 -- Todo Comments Stuff
 vim.keymap.set("n", "gt", function()

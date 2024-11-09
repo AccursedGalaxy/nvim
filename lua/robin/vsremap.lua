@@ -104,4 +104,5 @@ if vim.g.vscode then
 	keymap("v", "J", "G", opts)
 	keymap("v", "K", "gg", opts)
 else
+	return
 end
