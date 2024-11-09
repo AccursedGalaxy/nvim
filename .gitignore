@@ -1,3 +1,49 @@
-# Github ignore file for Neovim Configuration
+# Ignore swap files
+*.swp
+*.swo
+*.swn
 
+# Ignore backup files
+*.bak
+*.tmp
+*.temp
+*.orig
+*.save
+
+# Ignore undo files
+*.un~
+
+# Ignore Neovim specific directories and files
+**/node_modules/
+**/.DS_Store
+**/Session.vim
+**/sessions/
+**/swap/
+**/backup/
+**/undo/
+
+# Ignore compiled Lua files
+*.luac
+
+# Ignore logs and cache
+*.log
+.cache/
+nvim-data/
+nvim-log/
+nvim-lsp.log
+fidget.nvim.log
+
+# Ignore plugin-related files
 lazy-lock.json
+**/packer_compiled.lua
+**/plugged/
+**/site/
+
+# Ignore temporary files created by the OS
+Thumbs.db
+.DS_Store
+
+# Ignore temporary files created by version control tools
+.idea/
+.vscode/
+*.iml
