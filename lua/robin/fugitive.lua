@@ -1,22 +1,12 @@
--- Fugitive configuration
--- Function to create key mappings
-local function map(mode, lhs, rhs, opts)
-	local options = { noremap = true, silent = true }
-	if opts then
-		options = vim.tbl_extend("force", options, opts)
-	end
-	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
+local Robin_Fugitive = vim.api.nvim_create_augroup("Robin_Fugitive", {})
 
--- Key mappings for Fugitive
-map("n", "<leader>gs", ":G<CR>", { silent = true }) -- Open Fugitive status window
-map("n", "<leader>gc", ":Git commit<CR>", { silent = true }) -- Quick commit
-map("n", "<leader>gp", ":Git push<CR>", { silent = true }) -- Push changes
-map("n", "<leader>gl", ":Git pull<CR>", { silent = true }) -- Pull changes
-map("n", "<leader>gd", ":Gvdiffsplit!<CR>", { silent = true }) -- Open vertical diff split
-map("n", "<leader>gb", ":Git blame<CR>", { silent = true }) -- Git blame
-map("n", "<leader>gr", ":Gread<CR>", { silent = true }) -- Read from the index
-map("n", "<leader>gw", ":Gwrite<CR>", { silent = true }) -- Write to the index
-
--- Additional commands for enhanced workflow
-vim.api.nvim_command("command! -nargs=* Gclog Git log --oneline --decorate <args>") -- Custom log command
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("BufWinEnter", {
+	group = Robin_Fugitive,
+	pattern = "*",
+	callback = function()
+		if vim.bo.ft ~= "fugitive" then
+			return
+		end
+	end,
+})

@@ -51,8 +51,17 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
+keymap("n", "Q", "<nop>")
+keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+keymap("n", "<leader>f", vim.lsp.buf.format)
+
+keymap("n", "<leader><leader>", ":nohlsearch<CR>", opts)
+
 -- Find and replace
 keymap("n", "<leader>rr", ":%s//g<Left><Left>", opts)
+
+-- Go To Definition
+keymap("n", "<leader>gd", ":lua vim.lsp.buf.definition()<CR>", opts)
 
 -- telescope shortcuts
 -- function to get the current directory and subdirectories, should also work in netrw

@@ -37,17 +37,45 @@ vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 8
 vim.opt.guifont = "monospace:h17" -- the font used in graphical neovim applications
 vim.opt.title = false
--- colorcolumn = "80",
--- colorcolumn = "120",
 vim.opt.fillchars = vim.opt.fillchars + "eob: "
-vim.opt.fillchars:append {
-  stl = " ",
-}
+vim.opt.fillchars:append({
+	stl = " ",
+})
 
-vim.opt.shortmess:append "c"
+vim.opt.shortmess:append("c")
 
-vim.cmd "set whichwrap+=<,>,[,],h,l"
-vim.cmd [[set iskeyword+=-]]
+vim.cmd("set whichwrap+=<,>,[,],h,l")
+vim.cmd([[set iskeyword+=-]])
 
 vim.g.netrw_banner = 0
 vim.g.netrw_mouse = 2
+
+vim.opt.guicursor = ""
+
+vim.opt.nu = true
+vim.opt.relativenumber = true
+
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
+vim.opt.smartindent = true
+
+vim.opt.wrap = false
+
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+
+vim.opt.termguicolors = true
+
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
+
+vim.opt.updatetime = 50

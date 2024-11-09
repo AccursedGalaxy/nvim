@@ -41,15 +41,14 @@ spec("neovim/nvim-lspconfig")
 spec("williamboman/nvim-lsp-installer")
 spec("b0o/schemastore.nvim")
 spec("folke/lsp-colors.nvim")
-spec("folke/trouble.nvim")
 spec("vimwiki/vimwiki")
 spec("folke/todo-comments.nvim")
 spec("nvim-lualine/lualine.nvim")
 spec("terrortylor/nvim-comment")
 spec("nvimtools/none-ls.nvim")
-spec("ThePrimeagen/harpoon") -- Harpoon
-spec("christoomey/vim-tmux-navigator") -- Tmux Navigator
-spec("akinsho/toggleterm.nvim") -- Toggle Term
+spec("ThePrimeagen/harpoon")
+spec("christoomey/vim-tmux-navigator")
+spec("akinsho/toggleterm.nvim")
 spec({ "ellisonleao/glow.nvim", config = true, cmd = "Glow" })
 
 -- Noice Nvim
@@ -59,14 +58,15 @@ spec("rcarriga/nvim-notify")
 
 -- CMP Setup including dependencies
 spec("hrsh7th/nvim-cmp")
-spec("hrsh7th/cmp-nvim-lsp") -- LSP completion source
-spec("hrsh7th/cmp-buffer") -- Buffer completion source
-spec("hrsh7th/cmp-path") -- Path completion source
-spec("hrsh7th/cmp-cmdline") -- Cmdline completion source
-spec("saadparwaiz1/cmp_luasnip") -- Snippet completion source
+spec("hrsh7th/cmp-nvim-lsp")
+spec("hrsh7th/cmp-buffer")
+spec("hrsh7th/cmp-path")
+spec("hrsh7th/cmp-cmdline")
+spec("vonheikemen/lsp-zero.nvim")
+spec("saadparwaiz1/cmp_luasnip")
 spec("github/copilot.vim")
-spec("L3MON4D3/LuaSnip") -- Snippet engine
-spec("rafamadriz/friendly-snippets") -- Snippet collection
+spec("L3MON4D3/LuaSnip")
+spec("rafamadriz/friendly-snippets")
 spec({
 	"zbirenbaum/copilot.lua",
 	event = "InsertEnter",
@@ -88,7 +88,7 @@ spec({
 -- Mason Setup
 spec("williamboman/mason.nvim")
 
--- telescope
+-- Telescope
 spec("nvim-lua/plenary.nvim")
 spec("nvim-telescope/telescope.nvim")
 spec("nvim-telescope/telescope-project.nvim")
@@ -105,9 +105,11 @@ spec("akinsho/nvim-toggleterm.lua")
 spec("folke/which-key.nvim")
 spec("folke/zen-mode.nvim")
 spec("karb94/neoscroll.nvim")
-spec("folke/zen-mode.nvim")
 
--- fugitive and gitgutter
+-- Cloak for Hiding Sensative Information
+spec("laytan/cloak.nvim")
+
+-- Fugitive and GitGutter
 spec("tpope/vim-fugitive")
 spec("airblade/vim-gitgutter")
 
@@ -117,6 +119,29 @@ spec({
 	run = ":TSUpdate",
 })
 
+-- Folke Trouble
+spec({
+	"folke/trouble.nvim",
+	opts = {}, -- Configure default options here
+	cmd = "Trouble",
+})
+-- UndoTree
+spec("mbbill/undotree")
+
+-- Refactoring - By The One And Only ThePrimeagen
+spec({
+	"ThePrimeagen/refactoring.nvim",
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		"nvim-treesitter/nvim-treesitter",
+	},
+	lazy = false,
+	config = function()
+		require("refactoring").setup()
+	end,
+})
+
+-- Setup lazy.nvim with the specified plugins
 require("lazy").setup({
 	spec = LAZY_PLUGIN_SPEC,
 })
