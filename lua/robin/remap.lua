@@ -73,6 +73,7 @@ keymap("n", "<leader>gf", ":Telescope git_files<CR>", opts)
 -- Telescope shortcuts
 keymap("n", "<leader>ss", ":Telescope live_grep<CR>", opts)
 keymap("n", "<leader>sb", ":Telescope buffers<CR>", opts)
+
 -- Search inside git files with live_grep and git_files
 keymap(
 	"n",
