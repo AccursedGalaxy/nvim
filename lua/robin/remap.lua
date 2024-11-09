@@ -72,12 +72,19 @@ function _G.project_files()
 	})
 end
 
-keymap("n", "<leader>pf", ":lua project_files()<CR>", opts)
-keymap("n", "<leader>gf", ":Telescope git_files<CR>", opts)
-
 -- Telescope shortcuts
+keymap("n", "<leader>pf", ":lua project_files()<CR>", opts)
 keymap("n", "<leader>ss", ":Telescope live_grep<CR>", opts)
-keymap("n", "<leader>sb", ":Telescope buffers<CR>", opts)
+keymap("n", "<leader>sb", ":Telescope buffers<CR>", opts) -- Don't really need this, but it's here i guess
+keymap("n", "<C-p>", ":Telescope git_files<CR>", opts)
+keymap("n", "<leader>vh", ":Telescope help_tags<CR>", opts)
+
+keymap("n", "<leader>ps", function()
+	local input = vim.fn.input("Grep > ")
+	if input and #input > 0 then
+		vim.cmd("Telescope grep_string search=" .. input)
+	end
+end, opts)
 
 -- Search inside git files with live_grep and git_files
 keymap(
