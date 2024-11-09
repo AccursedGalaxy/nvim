@@ -6,7 +6,7 @@ else
 	require("robin.options") -- Basic Neovim options and settings
 
 	-- Load colorscheme
-	vim.cmd([[colorscheme solarized-osaka]])
+	vim.cmd([[colorscheme nord]])
 
 	local augroup = vim.api.nvim_create_augroup
 	local Robin = augroup("Robin", {})

@@ -31,6 +31,7 @@ spec({
 	"craftzdog/solarized-osaka.nvim",
 	lazy = true,
 })
+spec("arcticicestudio/nord-vim")
 
 -- load transparent and run :TransparentEnable
 spec({ "xiyaowong/nvim-transparent", run = ":TransparentEnable" })
@@ -47,7 +48,6 @@ spec("nvim-lualine/lualine.nvim")
 spec("terrortylor/nvim-comment")
 spec("nvimtools/none-ls.nvim")
 spec("ThePrimeagen/harpoon")
-spec("christoomey/vim-tmux-navigator")
 spec("akinsho/toggleterm.nvim")
 spec({ "ellisonleao/glow.nvim", config = true, cmd = "Glow" })
 
@@ -162,6 +162,24 @@ spec({
 	config = function()
 		require("refactoring").setup()
 	end,
+})
+
+spec({
+	"christoomey/vim-tmux-navigator",
+	cmd = {
+		"TmuxNavigateLeft",
+		"TmuxNavigateDown",
+		"TmuxNavigateUp",
+		"TmuxNavigateRight",
+		"TmuxNavigatePrevious",
+	},
+	keys = {
+		{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+		{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+		{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+		{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+		{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+	},
 })
 
 -- Setup lazy.nvim with the specified plugins

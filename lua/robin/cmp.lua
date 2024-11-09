@@ -99,5 +99,5 @@ cmp.setup({
 
 -- Additional Copilot settings (if required)
 vim.cmd([[
-  imap <silent><script><expr> <C-l> copilot#Accept("\<CR>")
+  imap <silent><script><expr> <leader><Tab> copilot#Accept("\<CR>")
 ]])

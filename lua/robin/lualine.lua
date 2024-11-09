@@ -4,7 +4,7 @@ local lualine = require("lualine")
 lualine.setup({
 	options = {
 		icons_enabled = true,
-		theme = "solarized_dark", -- Consistent theming
+		theme = "nord", -- Consistent theming
 		component_separators = { left = "", right = "" }, -- Simplified separators
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {},
