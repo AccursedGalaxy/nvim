@@ -8,6 +8,14 @@ else
 	-- Load colorscheme
 	vim.cmd([[colorscheme nord]])
 
+	-- Remove Background
+	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
+	-- Remove Cursorline
+	vim.api.nvim_set_hl(0, "CursorLine", { bg = "none" })
+	vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "none" })
+
 	local augroup = vim.api.nvim_create_augroup
 	local Robin = augroup("Robin", {})
 
