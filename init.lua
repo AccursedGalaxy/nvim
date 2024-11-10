@@ -53,6 +53,7 @@ else
 	require("robin.telescope") -- Telescope for fuzzy finding and searching
 	require("robin.copilot") -- GitHub Copilot for AI-assisted coding
 	require("robin.nvim-comment") -- Nvim-comment for easy commenting
+	require("robin.todo-comments") -- Todo-comments for highlighting TODOs
 	require("robin.cmp") -- Nvim-cmp for autocompletion
 	require("robin.harpoon") -- Harpoon for quick file navigation
 	require("robin.gitgutter") -- Gitgutter for git diff in the sign column

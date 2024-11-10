@@ -88,15 +88,3 @@ keymap(
 	opts
 )
 vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = "Harpoon [M]arks" }) -- Search marks with Telescope
-
--- Go To Definition
-keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-
--- Todo Comments Stuff
-vim.keymap.set("n", "gt", function()
-	require("todo-comments").jump_next()
-end, { desc = "Next todo comment" })
-
-vim.keymap.set("n", "gT", function()
-	require("todo-comments").jump_prev()
-end, { desc = "Previous todo comment" })
