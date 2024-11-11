@@ -32,6 +32,10 @@ spec({
 	lazy = true,
 })
 spec("arcticicestudio/nord-vim")
+spec({
+	"rose-pine/neovim",
+	name = "rose-pine",
+})
 
 -- load transparent and run :TransparentEnable
 spec({ "xiyaowong/nvim-transparent", run = ":TransparentEnable" })
