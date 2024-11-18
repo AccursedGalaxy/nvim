@@ -1,0 +1,23 @@
+" Special
+let wallpaper  = "/home/robin/Pictures/wallpapers/wallhaven-e76mlr_2560x1440.jpg"
+let background = "#0a0907"
+let foreground = "#ded9d2"
+let cursor     = "#ded9d2"
+
+" Colors
+let color0  = "#0a0907"
+let color1  = "#94705A"
+let color2  = "#7D8273"
+let color3  = "#968B77"
+let color4  = "#D38E76"
+let color5  = "#A79F94"
+let color6  = "#CBB5A7"
+let color7  = "#ded9d2"
+let color8  = "#9b9793"
+let color9  = "#94705A"
+let color10 = "#7D8273"
+let color11 = "#968B77"
+let color12 = "#D38E76"
+let color13 = "#A79F94"
+let color14 = "#CBB5A7"
+let color15 = "#ded9d2"
