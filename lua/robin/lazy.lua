@@ -101,6 +101,9 @@ spec("nvim-telescope/telescope-frecency.nvim")
 spec("rinx/nvim-ripgrep")
 spec("ThePrimeagen/git-worktree.nvim")
 
+-- Hyperland - hyprparse
+spec("hyprland-community/hyprparse")
+
 -- Better UI
 spec("kyazdani42/nvim-web-devicons")
 spec("akinsho/nvim-bufferline.lua")
