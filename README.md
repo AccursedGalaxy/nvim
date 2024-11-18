@@ -140,7 +140,7 @@ Contributions are welcome! Please feel free to submit pull requests or create is
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for more details.
+MIT License - See [LICENSE](LICENSE.md) for details.
 
 ---
 
