@@ -1,95 +1,147 @@
 # NeoVim Configuration by AccursedGalaxy
 
-This is my customized NeoVim setup designed to boost productivity and streamline development workflows.
-With an emphasis on lazy loading, efficient key mappings, and UI enhancements, this configuration is a versatile toolset for any developer.
+
+A modern, feature-rich Neovim configuration focused on productivity, with intelligent LSP integration, extensive plugin support, and carefully crafted keymaps.
+This setup supports both regular Neovim and VSCode Neovim integration.
 It is a work in progress and continuously evolving as I refine and optimize it.
-
-## Overview
-
-My NeoVim configuration incorporates a robust plugin ecosystem managed via `lazy.nvim`, making it performant and modular. The setup includes essential language server support, advanced code completion, intuitive UI components, and productivity-enhancing tools.
 
 ⚠️ **Note:** This setup is currently not fully tested or documented. If you choose to use or adapt it, I recommend forking the repository and customizing it to your own needs.
 
-## Installation
-
 > **Planned Improvement:** I will add an installation script to automate the setup and simplify future updates.
 
+## Features
+
+### Core Functionality
+- **Dual Mode Support**: Separate configurations for standalone Neovim and VSCode-Neovim integration
+- **Lazy Loading**: Powered by lazy.nvim for optimal startup performance
+- **Intelligent LSP Integration**: Comprehensive language server support with automatic setup
+- **Advanced Search Capabilities**: Integrated Ripgrep and Telescope for powerful search functionality
+
+### Language Support
+- Built-in support for multiple languages including:
+  - Python (pyright)
+  - C/C++ (clangd)
+  - Go (gopls)
+  - Rust
+  - Lua
+  - HTML/CSS
+  - JSON/YAML
+  - Bash
+  - And more...
+
+### Key Features
+
+#### LSP and Code Intelligence
+- Full LSP integration with automatic server configuration
+- Intelligent code completion via nvim-cmp
+- GitHub Copilot integration for AI-assisted coding
+- Advanced diagnostics and error handling
+- Code actions and quick fixes
+
+#### Navigation and Search
+- Telescope integration for fuzzy finding
+- Harpoon for quick file navigation
+- Advanced ripgrep integration for project-wide search
+- Custom file navigation commands
+
+#### Git Integration
+- Fugitive for Git operations
+- GitGutter for inline git diff information
+- Git worktree support
+
+#### UI Enhancements
+- Multiple theme support including:
+  - Gruvbox
+  - Tokyo Night
+  - Solarized Osaka
+  - Nord
+  - Rose Pine
+  - And more...
+- Transparent background support
+- Custom status line with lualine
+- Todo comments highlighting
+- Noice for enhanced UI
+- Fidget for LSP progress display
+
+#### Productivity Tools
+- Terminal integration with toggleterm
+- Zen mode for focused coding
+- Advanced undo tree visualization
+- Custom commenting system
+- Markdown preview with Glow
+- VimWiki integration for note-taking
+
+## Installation
+
 ### Prerequisites
+- Neovim >= 0.10.2
+- Git
+- Node.js (for Copilot and certain LSP features)
+- Ripgrep (for search functionality)
 
-- **NeoVim v0.10.2+**: Ensure you are using the latest version.
-- **Git**: Required for cloning plugins.
-- **Package Manager**: Uses [lazy.nvim](https://github.com/folke/lazy.nvim) for plugin management.
+### Basic Setup
+```bash
+git clone https://github.com/AccursedGalaxy/nvim-config ~/.config/nvim
+```
 
-### Quick Setup
+### Post-Installation
+1. Open Neovim to trigger automatic plugin installation
+2. Run `:Mason` to install language servers
+3. Run `:Copilot setup` to configure GitHub Copilot
 
-1. **Clone the Repository**:
-   ```sh
-   git clone https://github.com/AccursedGalaxy/nvim-config ~/.config/nvim
-   ```
+## Key Mappings
 
-2. **Install Plugins**:
-   Open NeoVim and install all specified plugins:
-   ```vim
-   :Lazy
-   ```
+### General
+- Space as leader key
+- Quick file navigation with Telescope
+- Advanced split management
+- Custom motion commands for efficient navigation
 
-3. **Set the Colorscheme**:
-   ```vim
-   :colorscheme solarized-osaka
-   ```
+### Notable Mappings
+```lua
+-- Example keymaps from remap.lua
+vim.g.mapleader = " "
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- ... more keymaps
+```
 
-4. **Restart NeoVim**: Your configuration is now loaded and ready to use.
+### VSCode Integration
+Separate keymaps for VSCode-Neovim integration:
+```lua
+-- Example VSCode keymaps from vsremap.lua
+vim.keymap.set('n', '<Space>', '<Nop>')
+vim.g.mapleader = " "
+-- ... more VSCode specific keymaps
+```
 
 ## Plugin Configuration
 
-The setup uses `lazy.nvim` for plugin management with the following core plugins and features:
+### LSP Setup
+- Automatic language server configuration
+- Intelligent completion
+- Diagnostic integration
+- Code actions and quick fixes
 
-### Core Features
+### Search and Navigation
+- Telescope integration with custom commands
+- Ripgrep integration for advanced search
+- Harpoon for quick file switching
 
-- **Lazy Loading**: Plugins are loaded only when needed, reducing startup time.
-- **LSP and Syntax Highlighting**:
-  - Configured with `nvim-lspconfig` and `mason.nvim` for language server management.
-  - Advanced syntax highlighting using `nvim-treesitter`.
-- **Auto-completion**: `nvim-cmp` for intelligent code suggestions and `copilot.vim` for AI-assisted coding.
-- **Git Integration**: Tools like `vim-fugitive` and `vim-gitgutter` for seamless version control.
-- **File Navigation**: `telescope.nvim` for fuzzy finding and `harpoon` for efficient file switching.
-- **UI Enhancements**:
-  - `lualine.nvim` for a modern status line.
-  - `nvim-bufferline.lua` for enhanced tab management.
-  - `noice.nvim` and `nvim-notify` for better command line and notification UI.
+## Customization
 
-### Key Mappings
+The configuration is modular and easy to customize:
+- Individual plugin configurations in `lua/robin/`
+- Separate VSCode and regular Neovim configurations
+- Lazy-loaded plugins for optimal performance
 
-Custom key mappings are defined in `robin.remap` to streamline navigation and editing. Check the `remap` file for a complete overview.
+## Contributing
 
-## Usage and Customization
-
-- **Fork and Customize**: Feel free to fork the repository and tailor the configuration to your workflow.
-- **Lazy Plugin Setup**: The configuration is modular, making it easy to add or remove plugins.
-
-## Notable Plugins
-
-- **Themes**: Multiple colorschemes, including `gruvbox`, `tokyonight.nvim`, `solarized-osaka.nvim`, and more.
-- **Smooth Scrolling**: `neoscroll.nvim` for better scrolling experience.
-- **Terminal Integration**: `toggleterm.nvim` for an embedded terminal.
-- **Distraction-Free Writing**: `zen-mode.nvim` for a focused writing environment.
-- **Undo Management**: `undotree` for visualizing undo history.
-- **Refactoring**: Tools by `ThePrimeagen` for easy code refactoring.
-
-## Future Plans
-
-- **Documentation**: Comprehensive documentation to aid setup and customization.
-- **Installation Script**: Automate the installation and updates.
-- **Advanced Configurations**: Incorporate more efficient workflows and tools.
-
-## Contribution
-
-Contributions are welcome! Feel free to open issues or submit pull requests to suggest enhancements or report bugs.
+Contributions are welcome! Please feel free to submit pull requests or create issues for bugs and feature requests.
 
 ## License
 
-This configuration is licensed under the [MIT License](https://opensource.org/licenses/MIT). Check the [LICENSE](LICENSE.md) file for more details.
+MIT License - See [LICENSE](LICENSE) for more details.
 
 ---
 
-Thank you for exploring my NeoVim setup. I hope you find it useful and adaptable for your own development needs. Happy coding!
+For detailed configuration options and more information, please check the individual configuration files in the repository.
