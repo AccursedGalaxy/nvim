@@ -75,8 +75,9 @@ else
 	require("robin.trouble") -- Trouble for displaying diagnostics
 	require("robin.undotree") -- Undotree for visualizing undo history
 	require("robin.refactoring") -- Refactoring by ThePrimeagen
-	require("robin.cloak") -- Cloak for hiding sensitive information
+	-- require("robin.cloak") -- Cloak for hiding sensitive information
 	require("robin.lsp") -- LSP configuration
+	require("robin.obsidian")
 
 	-- UI Enhancements
 	require("robin.lualine") -- Lualine for better status line

@@ -8,6 +8,7 @@ none_ls.setup({
 		none_ls.builtins.formatting.stylua,
 		none_ls.builtins.formatting.black,
 		none_ls.builtins.formatting.isort,
+		none_ls.builtins.formatting.autoflake,
 	},
 	formatters = {
 		{
@@ -22,10 +23,17 @@ none_ls.setup({
 			command = "isort", -- Python import sorter
 			filetypes = { "python" },
 		},
+		{
+			command = "autoflake",
+			filetypes = { "python" },
+		},
 	},
 	-- Example of setting up a linter (add your preferred linters)
 	linters = {
-		-- Add linter configurations here
+		{
+			command = "flake8",
+			filetypes = { "python" },
+		},
 	},
 })
 

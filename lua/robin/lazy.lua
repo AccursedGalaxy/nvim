@@ -54,6 +54,7 @@ spec("nvimtools/none-ls.nvim")
 spec("ThePrimeagen/harpoon")
 spec("akinsho/toggleterm.nvim")
 spec({ "ellisonleao/glow.nvim", config = true, cmd = "Glow" })
+spec("epwalsh/obsidian.nvim")
 
 -- Noice Nvim
 spec("folke/noice.nvim")
@@ -137,7 +138,7 @@ spec({
 })
 
 -- Cloak for Hiding Sensative Information
-spec("laytan/cloak.nvim")
+-- spec("laytan/cloak.nvim")
 
 -- Fugitive and GitGutter
 spec("tpope/vim-fugitive")
