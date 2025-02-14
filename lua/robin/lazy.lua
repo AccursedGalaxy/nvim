@@ -189,6 +189,23 @@ spec({
 	},
 })
 
+-- Obsidian Plugin
+spec({
+	"epwalsh/obsidian.nvim",
+	version = "*", -- recommended to use latest release
+	lazy = true,
+	ft = "markdown",
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		-- Optional, for completion
+		"hrsh7th/nvim-cmp",
+		-- Optional, for search and quick-switch functionality
+		"nvim-telescope/telescope.nvim",
+		-- Optional, alternative to telescope for search and quick-switch functionality
+		"ibhagwan/fzf-lua",
+	},
+})
+
 -- Setup lazy.nvim with the specified plugins
 require("lazy").setup({
 	spec = LAZY_PLUGIN_SPEC,
