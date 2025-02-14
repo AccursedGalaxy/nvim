@@ -54,7 +54,6 @@ spec("nvimtools/none-ls.nvim")
 spec("ThePrimeagen/harpoon")
 spec("akinsho/toggleterm.nvim")
 spec({ "ellisonleao/glow.nvim", config = true, cmd = "Glow" })
-spec("epwalsh/obsidian.nvim")
 
 -- Noice Nvim
 spec("folke/noice.nvim")
