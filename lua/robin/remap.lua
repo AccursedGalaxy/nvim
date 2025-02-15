@@ -90,3 +90,9 @@ keymap(
 	opts
 )
 vim.keymap.set("n", "<leader>sm", ":Telescope harpoon marks<CR>", { desc = "Harpoon [M]arks" }) -- Search marks with Telescope
+
+-- Obsidian shortcuts
+keymap("n", "<leader>on", ":ObsidianNew<CR>", opts)
+keymap("n", "<leader>os", ":ObsidianSearch<CR>", opts)
+keymap("n", "<leader>od", ":ObsidianDailies<CR>", opts)
+keymap("n", "<leader>oo", ":ObsidianToday<CR>", opts)
