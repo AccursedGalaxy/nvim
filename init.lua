@@ -59,6 +59,7 @@ else
 	require("robin.mason") -- Mason for managing LSP and other tools
 	require("robin.vimwiki") -- Vimwiki for personal wiki and note-taking
 	require("robin.telescope") -- Telescope for fuzzy finding and searching
+	require("robin.yazi") -- Yazi file manager
 	require("robin.obsidian") -- Obsidian for note-taking and vault management
 	require("robin.copilot") -- GitHub Copilot for AI-assisted coding
 	require("robin.nvim-comment") -- Nvim-comment for easy commenting

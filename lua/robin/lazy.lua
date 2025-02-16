@@ -206,6 +206,16 @@ spec({
 	},
 })
 
+-- Yazi file manager
+spec({
+	"mikavilpas/yazi.nvim",
+	event = "VeryLazy",
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+	},
+	lazy = false,
+})
+
 -- Setup lazy.nvim with the specified plugins
 require("lazy").setup({
 	spec = LAZY_PLUGIN_SPEC,
