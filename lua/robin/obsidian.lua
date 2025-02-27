@@ -7,6 +7,17 @@ require("obsidian").setup({
 		-- Add more workspaces as needed
 	},
 
+	daily_notes = {
+		folder = "daily", -- All daily notes will be stored in ~/vaults/new/daily
+		date_format = "%Y-%m-%d", -- Format of the date in the daily note file name
+	},
+
+	templates = {
+		folder = "templates", -- All templates will be stored in ~/vaults/new/templates
+		date_format = "%Y-%m-%d", -- Format of the date in the template file name
+		time_format = "%H:%M", -- Format of the time in the template file name
+	},
+
 	-- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp
 	completion = {
 		nvim_cmp = true,
@@ -27,6 +38,7 @@ require("obsidian").setup({
 	-- Optional, customize how names/IDs for new notes are created
 	note_id_func = function(title)
 		-- Create note IDs in a Zettelkasten format with a timestamp and a suffix
+		local date = os.date("%Y-%m-%d")
 		local suffix = ""
 		if title ~= nil then
 			-- If title is given, transform it into valid file name
@@ -37,7 +49,7 @@ require("obsidian").setup({
 				suffix = suffix .. string.char(math.random(65, 90))
 			end
 		end
-		return tostring(os.time()) .. "-" .. suffix
+		return date .. "-" .. suffix
 	end,
 
 	-- Optional, set to true if you use the Obsidian Advanced URI plugin

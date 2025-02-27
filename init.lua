@@ -83,4 +83,5 @@ else
 	-- UI Enhancements
 	require("robin.lualine") -- Lualine for better status line
 	require("robin.fidget")
+	require("robin.render")
 end
