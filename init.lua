@@ -2,6 +2,7 @@ if vim.g.vscode then
 	require("robin.vsremap")
 else
 	-- Initial Configuration
+	vim.opt.termguicolors = true
 	require("robin.lazy") -- Lazy loading of plugins
 	require("robin.options") -- Basic Neovim options and settings
 
@@ -83,5 +84,6 @@ else
 	-- UI Enhancements
 	require("robin.lualine") -- Lualine for better status line
 	require("robin.fidget")
+	require("robin.colors")
 	require("robin.render")
 end

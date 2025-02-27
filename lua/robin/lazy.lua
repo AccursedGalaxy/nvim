@@ -114,6 +114,19 @@ spec("ThePrimeagen/git-worktree.nvim")
 spec("hyprland-community/hyprparse")
 
 -- Better UI
+spec({
+	"norcalli/nvim-colorizer.lua",
+	enable = true,
+	config = function()
+		require("colorizer").setup()
+	end,
+})
+spec({
+	"bullets-vim/bullets.vim",
+	config = function()
+		vim.g.bullets_delete_last_bullet_if_empty = 1
+	end,
+})
 spec("kyazdani42/nvim-web-devicons")
 spec("akinsho/nvim-bufferline.lua")
 spec("glepnir/galaxyline.nvim")
