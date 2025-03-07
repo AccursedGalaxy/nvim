@@ -64,10 +64,6 @@ if vim.g.vscode then
 		vscode.action("workbench.action.focusRightGroup")
 	end, opts)
 
-	-- Scroll while keeping the cursor centered (useful for code review)
-	keymap("n", "<C-u>", "<Cmd>normal! <C-u>zz<CR>", opts)
-	keymap("n", "<C-d>", "<Cmd>normal! <C-d>zz<CR>", opts)
-
 	-- Focus Terminal/Open New Terminal
 	keymap("n", "<leader>t", function()
 		vscode.action("workbench.action.terminal.focus")

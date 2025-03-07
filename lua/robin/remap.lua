@@ -27,10 +27,6 @@ keymap("v", "<C-k>", ":m '<-2<CR>gv=gv", opts)
 -- Select Word
 keymap("n", "<leader>w", "viw", opts)
 
--- Move half page up and down and keep cursor in the middle
-keymap("n", "<C-u>", "<C-u>zz", opts)
-keymap("n", "<C-d>", "<C-d>zz", opts)
-
 -- Move to Start or End of File
 keymap("n", "K", "gg", opts)
 keymap("n", "J", "G", opts)
@@ -46,7 +42,6 @@ keymap("n", "<leader>sv", ":vsplit<CR>", opts)
 keymap("n", "<leader>sh", ":split<CR>", opts)
 
 keymap("n", "Q", "<nop>")
-keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 keymap("n", "<leader>f", vim.lsp.buf.format)
 
 keymap("n", "<leader><leader>", ":nohlsearch<CR>", opts)
@@ -96,3 +91,9 @@ keymap("n", "<leader>on", ":ObsidianNew<CR>", opts)
 keymap("n", "<leader>os", ":ObsidianSearch<CR>", opts)
 keymap("n", "<leader>od", ":ObsidianDailies<CR>", opts)
 keymap("n", "<leader>oo", ":ObsidianToday<CR>", opts)
+
+-- Neoscroll shortcuts -> map to arrow keys
+keymap("n", "<Up>", ":lua require('neoscroll').scroll(-0.2, { move_cursor=false; duration = 200 })<CR>", opts)
+keymap("n", "<Down>", ":lua require('neoscroll').scroll(0.2, { move_cursor=false; duration = 200 })<CR>", opts)
+keymap("n", "<Left>", ":lua require('neoscroll').scroll(-0.2, { move_cursor=false; duration = 200 })<CR>", opts)
+keymap("n", "<Right>", ":lua require('neoscroll').scroll(0.2, { move_cursor=false; duration = 200 })<CR>", opts)
