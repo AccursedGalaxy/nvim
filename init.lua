@@ -104,4 +104,7 @@ else
 	require("robin.fidget")
 	-- require("robin.colors")
 	require("robin.render")
+	
+	-- Color reload commands
+	require("robin.color_reload").setup()
 end
