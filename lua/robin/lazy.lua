@@ -69,6 +69,8 @@ spec("folke/noice.nvim")
 spec("MunifTanjim/nui.nvim")
 spec("rcarriga/nvim-notify")
 
+spec("dylanaraps/wal.vim")
+
 -- CMP Setup including dependencies
 spec("hrsh7th/nvim-cmp")
 spec("hrsh7th/cmp-nvim-lsp")

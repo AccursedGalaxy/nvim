@@ -9,6 +9,12 @@ end
 return {
 
 	{
+		"dylanaraps/wal.vim",
+		lazy = false,
+		priority = 1000, -- Load before other colorschemes
+	},
+
+	{
 		"erikbackman/brightburn.vim",
 	},
 

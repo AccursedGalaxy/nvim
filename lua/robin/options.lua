@@ -15,7 +15,7 @@ vim.opt.smartcase = true -- smart case
 vim.opt.splitbelow = true -- force all horizontal splits to go below current window
 vim.opt.splitright = true -- force all vertical splits to go to the right of current window
 vim.opt.swapfile = false -- creates a swapfile
-vim.opt.termguicolors = true -- set term gui colors (most terminals support this)
+vim.opt.termguicolors = true -- enabled for plugins, will be disabled later for wal.vim
 vim.opt.timeoutlen = 1000 -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.undofile = true -- enable persistent undo
 vim.opt.updatetime = 100 -- faster completion (4000ms default)
@@ -71,7 +71,7 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
-vim.opt.termguicolors = true
+vim.opt.termguicolors = true -- needed for some plugins, but init.lua will disable before loading wal
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"

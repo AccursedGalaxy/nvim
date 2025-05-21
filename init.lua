@@ -2,12 +2,30 @@ if vim.g.vscode then
 	require("robin.vsremap")
 else
 	-- Initial Configuration
+	-- Start with termguicolors true to avoid plugin errors
 	vim.opt.termguicolors = true
 	require("robin.lazy") -- Lazy loading of plugins
 	require("robin.options") -- Basic Neovim options and settings
 
+	-- Create an event to track who's setting termguicolors
+	local debug_group = vim.api.nvim_create_augroup("DebugTermGuiColors", { clear = true })
+	vim.api.nvim_create_autocmd("OptionSet", {
+		group = debug_group,
+		pattern = "termguicolors",
+		callback = function()
+			if vim.v.option_new == "1" then
+				local info = debug.getinfo(3, "S")
+				if info and info.source then
+					vim.notify("termguicolors set to true by: " .. info.source, vim.log.levels.INFO)
+				end
+			end
+		end,
+	})
+
+	-- Turn off termguicolors before loading wal (it needs terminal colors)
+	vim.opt.termguicolors = false
 	-- Load colorscheme
-	vim.cmd([[colorscheme nord]])
+	vim.cmd([[colorscheme wal]])
 
 	-- Remove Background
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })

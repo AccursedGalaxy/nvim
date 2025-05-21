@@ -1,11 +1,20 @@
+-- Simple wrapper to load our custom theme
+require("robin.lualine_wal_theme").setup()
+
+-- We're using the custom setup from lualine_wal_theme.lua
+-- This file is kept minimal to avoid any syntax issues
+
+-- Empty setup to prevent the default from overriding our custom setup
 local lualine = require("lualine")
 
--- Configuring lualine
-lualine.setup({
+local wal_theme = require("robin.lualine_wal_theme")
+local theme = wal_theme.generate_theme()
+
+require("lualine").setup({
 	options = {
 		icons_enabled = true,
-		theme = "nord", -- Consistent theming
-		component_separators = { left = "", right = "" }, -- Simplified separators
+		theme = theme,
+		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {},
 		always_divide_middle = true,
