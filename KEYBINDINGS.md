@@ -7,7 +7,8 @@
 | Key | Action | Description |
 |-----|--------|-------------|
 | `<leader>ff` | Find Files | Fuzzy find files in project |
-| `<leader>fg` | Live Grep | Search text across all files |
+| `<leader>fg` | Live Grep | Search text across all files (literal search) |
+| `<leader>fr` | Regex Grep | Search with regex patterns |
 | `<leader>fb` | Find Buffers | Search through open buffers |
 | `<leader>fh` | Find Help | Search help documentation |
 | `<C-p>` | Git Files | Find files tracked by Git |

@@ -28,6 +28,13 @@ require("telescope").setup({
 			height = 0.80,
 			preview_cutoff = 120,
 		},
+		-- Configure mappings for better grep experience
+		mappings = {
+			i = {
+				-- Toggle between regex and fixed string search
+				["<C-r>"] = require("telescope.actions").to_fuzzy_refine,
+			},
+		},
 	},
 	pickers = {
 		find_files = {
@@ -36,6 +43,8 @@ require("telescope").setup({
 		},
 		live_grep = {
 			theme = "ivy",
+			-- Use fixed strings by default (no regex interpretation)
+			additional_args = { "--fixed-strings" },
 		},
 	},
 })
@@ -43,6 +52,7 @@ require("telescope").setup({
 -- Telescope keybindings - <leader>f* namespace
 keymap("n", "<leader>ff", ":Telescope find_files<CR>", opts)
 keymap("n", "<leader>fg", ":Telescope live_grep<CR>", opts)
+keymap("n", "<leader>fr", ":lua require('telescope.builtin').live_grep({ additional_args = {} })<CR>", opts) -- Regex search
 keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
 keymap("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
 keymap("n", "<C-p>", ":Telescope git_files<CR>", opts) -- Legacy shortcut
