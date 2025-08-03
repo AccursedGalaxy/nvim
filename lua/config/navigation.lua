@@ -56,28 +56,31 @@ function _G.project_files()
 end
 keymap("n", "<leader>pf", ":lua project_files()<CR>", opts)
 
--- Harpoon Configuration (Harpoon2)
-local harpoon = require("harpoon")
-harpoon:setup({
-	settings = {
-		save_on_toggle = true,
-		sync_on_ui_close = true,
+-- Harpoon Configuration (stable version)
+require("harpoon").setup({
+	global_settings = {
+		save_on_toggle = false,
+		save_on_change = true,
+		enter_on_sendcmd = false,
+		tmux_autoclose_windows = false,
+		excluded_filetypes = { "harpoon" },
+		mark_branch = false,
 	},
 })
 
 -- Harpoon keybindings - <leader>h* namespace
-keymap("n", "<leader>ha", function() harpoon:list():add() end, opts)
-keymap("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, opts)
+keymap("n", "<leader>ha", ':lua require("harpoon.mark").add_file()<CR>', opts)
+keymap("n", "<leader>hh", ':lua require("harpoon.ui").toggle_quick_menu()<CR>', opts)
 
 -- Navigate to specific harpoon files
-keymap("n", "<leader>h1", function() harpoon:list():select(1) end, opts)
-keymap("n", "<leader>h2", function() harpoon:list():select(2) end, opts)
-keymap("n", "<leader>h3", function() harpoon:list():select(3) end, opts)
-keymap("n", "<leader>h4", function() harpoon:list():select(4) end, opts)
+keymap("n", "<leader>h1", ':lua require("harpoon.ui").nav_file(1)<CR>', opts)
+keymap("n", "<leader>h2", ':lua require("harpoon.ui").nav_file(2)<CR>', opts)
+keymap("n", "<leader>h3", ':lua require("harpoon.ui").nav_file(3)<CR>', opts)
+keymap("n", "<leader>h4", ':lua require("harpoon.ui").nav_file(4)<CR>', opts)
 
 -- Toggle previous & next buffers stored within Harpoon list
-keymap("n", "<C-S-P>", function() harpoon:list():prev() end, opts)
-keymap("n", "<C-S-N>", function() harpoon:list():next() end, opts)
+keymap("n", "<C-S-P>", ':lua require("harpoon.ui").nav_prev()<CR>', opts)
+keymap("n", "<C-S-N>", ':lua require("harpoon.ui").nav_next()<CR>', opts)
 
 -- Yazi Configuration
 require("yazi").setup({
