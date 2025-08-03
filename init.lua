@@ -1,110 +1,26 @@
+-- Minimal entry point for streamlined Neovim configuration
 if vim.g.vscode then
-	require("robin.vsremap")
-else
-	-- Initial Configuration
-	-- Start with termguicolors true to avoid plugin errors
-	vim.opt.termguicolors = true
-	require("robin.lazy") -- Lazy loading of plugins
-	require("robin.options") -- Basic Neovim options and settings
-
-	-- Create an event to track who's setting termguicolors
-	local debug_group = vim.api.nvim_create_augroup("DebugTermGuiColors", { clear = true })
-	vim.api.nvim_create_autocmd("OptionSet", {
-		group = debug_group,
-		pattern = "termguicolors",
-		callback = function()
-			if vim.v.option_new == "1" then
-				local info = debug.getinfo(3, "S")
-				if info and info.source then
-					vim.notify("termguicolors set to true by: " .. info.source, vim.log.levels.INFO)
-				end
-			end
-		end,
-	})
-
-	-- Turn off termguicolors before loading wal (it needs terminal colors)
-	vim.opt.termguicolors = false
-	-- Load colorscheme
-	vim.cmd([[colorscheme wal]])
-
-	-- Remove Background
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-
-	-- Remove Cursorline
-	vim.api.nvim_set_hl(0, "CursorLine", { bg = "none" })
-	vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "none" })
-
-	local augroup = vim.api.nvim_create_augroup
-	local Robin = augroup("Robin", {})
-
-	local autocmd = vim.api.nvim_create_autocmd
-	local yank_group = augroup("HighlightYank", {})
-
-	function R(name)
-		require("plenary.reload").reload_module(name)
-	end
-
-	autocmd("TextYankPost", {
-		group = yank_group,
-		pattern = "*",
-		callback = function()
-			vim.highlight.on_yank({
-				higroup = "IncSearch",
-				timeout = 40,
-			})
-		end,
-	})
-
-	autocmd({ "BufWritePre" }, {
-		group = Robin,
-		pattern = "*",
-		command = [[%s/\s\+$//e]],
-	})
-
-	vim.g.netrw_browse_split = 0
-	vim.g.netrw_banner = 0
-	vim.g.netrw_winsize = 25
-
-	-- Key Mappings
-	require("robin.remap") -- Custom key mappings
-
-	-- Language Server Protocol (LSP) and Syntax Highlighting
-	require("robin.lspconfig") -- LSP configuration
-	require("robin.treesitter") -- Treesitter for advanced syntax highlighting
-	require("robin.none-ls") -- Non-LSP diagnostics and formatting
-
-	-- Plugins Configuration
-	require("robin.mason") -- Mason for managing LSP and other tools
-	require("robin.vimwiki") -- Vimwiki for personal wiki and note-taking
-	require("robin.telescope") -- Telescope for fuzzy finding and searching
-	require("robin.yazi") -- Yazi file manager
-	require("robin.obsidian") -- Obsidian for note-taking and vault management
-	require("robin.copilot") -- GitHub Copilot for AI-assisted coding
-	require("robin.nvim-comment") -- Nvim-comment for easy commenting
-	require("robin.todo-comments") -- Todo-comments for highlighting TODOs
-	require("robin.cmp") -- Nvim-cmp for autocompletion
-	require("robin.harpoon") -- Harpoon for quick file navigation
-	require("robin.gitgutter") -- Gitgutter for git diff in the sign column
-	require("robin.fugitive") -- Fugitive for git integration
-	require("robin.ripgrep") -- Ripgrep for fast text search
-	require("robin.noice") -- Noice for command line popup
-	require("robin.notify")
-	require("robin.toggleterm") -- Toggleterm for terminal in a floating window
-	require("robin.neoscroll") -- Neoscroll for smooth scrolling
-	require("robin.zenmode") -- Zenmode for distraction-free writing
-	require("robin.trouble") -- Trouble for displaying diagnostics
-	require("robin.undotree") -- Undotree for visualizing undo history
-	require("robin.refactoring") -- Refactoring by ThePrimeagen
-	-- require("robin.cloak") -- Cloak for hiding sensitive information
-	require("robin.lsp") -- LSP configuration
-
-	-- UI Enhancements
-	require("robin.lualine") -- Lualine for better status line
-	require("robin.fidget")
-	-- require("robin.colors")
-	require("robin.render")
-	
-	-- Color reload commands
-	require("robin.color_reload").setup()
+	-- VSCode integration has been removed as part of streamlining
+	return
 end
+
+-- Essential setup before loading plugins
+vim.opt.termguicolors = true -- Start with true for plugin compatibility
+
+-- Load plugin manager and plugins
+require("plugins")
+
+-- Load core configuration
+require("core.options")
+require("core.keymaps")
+
+-- Configure colorscheme with transparency
+vim.opt.termguicolors = false -- Disable for wal.vim compatibility
+vim.cmd([[colorscheme wal]])
+
+-- Load feature configurations
+require("config.navigation") -- Telescope + Harpoon + Yazi
+require("config.lsp")        -- Mason + LSP + Completion + Copilot
+require("config.ui")         -- lualine + fidget + wal theme
+require("config.editing")    -- Treesitter + comment + todo-comments + auto-pairs
+require("config.git")        -- Fugitive
