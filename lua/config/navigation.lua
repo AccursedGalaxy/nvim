@@ -88,6 +88,12 @@ require("yazi").setup({
 	keymaps = {
 		show_help = "<f1>",
 	},
+	-- Floating window configuration
+	floating_window_scaling_factor = 0.9,
+	-- Use full window by default
+	use_ya_for_events_reading = true,
+	use_yazi_client_id_flag = true,
+	log_level = vim.log.levels.OFF,
 })
 
 -- Yazi keybinding
