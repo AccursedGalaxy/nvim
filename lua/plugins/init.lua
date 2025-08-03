@@ -22,25 +22,53 @@ spec("dylanaraps/wal.vim")
 
 -- Core Navigation Stack
 spec("nvim-lua/plenary.nvim") -- Required dependency for telescope and harpoon
-spec("nvim-telescope/telescope.nvim")
-spec("ThePrimeagen/harpoon")
+spec({
+	"nvim-telescope/telescope.nvim",
+	cmd = "Telescope",
+	keys = {
+		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+		{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+		{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+		{ "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Git Files" },
+	},
+})
+spec({
+	"ThePrimeagen/harpoon", 
+	branch = "harpoon2",
+	dependencies = { "nvim-lua/plenary.nvim" }
+})
 spec({
 	"mikavilpas/yazi.nvim",
 	event = "VeryLazy",
+	keys = {
+		{ "<leader>y", "<cmd>Yazi<cr>", desc = "Open Yazi" },
+	},
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
 })
 
 -- Language Support - LSP and Completion
-spec("williamboman/mason.nvim")
-spec("neovim/nvim-lspconfig")
+spec({
+	"williamboman/mason.nvim",
+	cmd = "Mason",
+	event = "BufReadPre",
+})
+spec({
+	"neovim/nvim-lspconfig",
+	event = { "BufReadPre", "BufNewFile" },
+})
 
 -- Completion System
-spec("hrsh7th/nvim-cmp")
-spec("hrsh7th/cmp-nvim-lsp")
-spec("hrsh7th/cmp-buffer")
-spec("hrsh7th/cmp-path")
+spec({
+	"hrsh7th/nvim-cmp",
+	event = "InsertEnter",
+	dependencies = {
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+	},
+})
 
 -- Copilot AI Integration
 spec({
@@ -62,12 +90,22 @@ spec({
 })
 
 -- Git Integration
-spec("tpope/vim-fugitive")
+spec({
+	"tpope/vim-fugitive",
+	cmd = { "Git", "Gdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse", "GRemove", "GRename", "Glgrep", "Gedit" },
+	keys = {
+		{ "<leader>gs", "<cmd>Git<cr>", desc = "Git Status" },
+	},
+})
 
 -- UI Components
-spec("nvim-lualine/lualine.nvim")
+spec({
+	"nvim-lualine/lualine.nvim",
+	event = "VeryLazy",
+})
 spec({
 	"j-hui/fidget.nvim",
+	event = "LspAttach",
 	config = function()
 		require("fidget").setup({
 			text = {
@@ -90,9 +128,23 @@ spec({
 })
 
 -- Essential Editing
-spec("nvim-treesitter/nvim-treesitter")
-spec("terrortylor/nvim-comment")
-spec("folke/todo-comments.nvim")
+spec({
+	"nvim-treesitter/nvim-treesitter",
+	build = ":TSUpdate",
+	event = { "BufReadPost", "BufNewFile" },
+})
+spec({
+	"terrortylor/nvim-comment",
+	keys = {
+		{ "gcc", mode = "n", desc = "Comment line" },
+		{ "gc", mode = "v", desc = "Comment selection" },
+	},
+})
+spec({
+	"folke/todo-comments.nvim",
+	event = { "BufReadPost", "BufNewFile" },
+	dependencies = { "nvim-lua/plenary.nvim" },
+})
 
 -- Auto-pairs for bracket/quote completion
 spec({

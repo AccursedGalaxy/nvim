@@ -56,9 +56,14 @@ function _G.project_files()
 end
 keymap("n", "<leader>pf", ":lua project_files()<CR>", opts)
 
--- Harpoon Configuration
+-- Harpoon Configuration (Harpoon2)
 local harpoon = require("harpoon")
-harpoon:setup()
+harpoon:setup({
+	settings = {
+		save_on_toggle = true,
+		sync_on_ui_close = true,
+	},
+})
 
 -- Harpoon keybindings - <leader>h* namespace
 keymap("n", "<leader>ha", function() harpoon:list():add() end, opts)
