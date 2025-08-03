@@ -37,7 +37,7 @@ require("lualine").setup({
 	tabline = {},
 	winbar = {},
 	inactive_winbar = {},
-	extensions = { "fugitive", "yazi" }
+	extensions = { "fugitive" }
 })
 
 -- Fidget configuration is handled by the plugin setup in plugins/init.lua
