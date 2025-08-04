@@ -40,3 +40,4 @@ keymap("n", "<leader>rr", ":%s//g<Left><Left>", opts) -- Find and replace
 -- - <leader>g* namespace: Git operations (Fugitive)
 -- - <leader>l* namespace: LSP operations
 -- - <leader>y: Yazi file manager
+-- - Ctrl+H/J/K/L: Tmux-Navigator for seamless pane navigation between tmux and nvim

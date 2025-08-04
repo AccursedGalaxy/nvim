@@ -198,6 +198,17 @@ spec({
 	end,
 })
 
+-- Tmux + Neovim seamless navigation
+spec({
+	"christoomey/vim-tmux-navigator",
+	keys = {
+		{ "<C-h>", "<cmd>TmuxNavigateLeft<cr>", desc = "Go to left pane" },
+		{ "<C-j>", "<cmd>TmuxNavigateDown<cr>", desc = "Go to lower pane" },
+		{ "<C-k>", "<cmd>TmuxNavigateUp<cr>", desc = "Go to upper pane" },
+		{ "<C-l>", "<cmd>TmuxNavigateRight<cr>", desc = "Go to right pane" },
+	},
+})
+
 -- Setup lazy.nvim with the specified plugins
 require("lazy").setup({
 	spec = LAZY_PLUGIN_SPEC,
