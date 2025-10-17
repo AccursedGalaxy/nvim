@@ -69,6 +69,7 @@
 | `<leader>sv` | Split Vertical | Create vertical split |
 | `<leader>sh` | Split Horizontal | Create horizontal split |
 | `<leader>rr` | Find & Replace | Find and replace in buffer |
+| `Q` | Disable | Disabled (was Ex mode) |
 
 ## Text Manipulation
 | Key | Action | Description |
@@ -87,6 +88,14 @@
 | `>` | Indent | Increase indentation (stay in visual) |
 | `<C-j>` | Move Down | Move selection down |
 | `<C-k>` | Move Up | Move selection up |
+
+## Tmux Navigation
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<C-h>` | Left Pane | Navigate to left tmux pane |
+| `<C-j>` | Lower Pane | Navigate to lower tmux pane |
+| `<C-k>` | Upper Pane | Navigate to upper tmux pane |
+| `<C-l>` | Right Pane | Navigate to right tmux pane |
 
 ## Completion (Insert Mode)
 | Key | Action | Description |
