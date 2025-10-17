@@ -52,6 +52,15 @@ keymap("n", "<leader>S", ':lua require("spectre").toggle()<CR>', opts)          
 keymap("n", "<leader>sw", ':lua require("spectre").open_visual({select_word=true})<CR>', opts) -- Search word
 keymap("n", "<leader>sp", ':lua require("spectre").open_file_search({select_word=true})<CR>', opts) -- Search file
 
+-- Development Tools (for config development and testing)
+keymap("n", "<leader>cr", ":ConfigReload<CR>", opts)        -- Reload configuration
+keymap("n", "<leader>ch", ":ConfigHealth<CR>", opts)        -- Health check
+keymap("n", "<leader>cb", ":ConfigBackup<CR>", opts)        -- Backup config
+keymap("n", "<leader>cp", ":ConfigProfile<CR>", opts)       -- Plugin performance profile
+keymap("n", "<leader>ce", ":ConfigEdit ", opts)             -- Edit config file (with completion)
+keymap("n", "<leader>ct", ":ConfigTestLSP<CR>", opts)       -- Test LSP functionality
+keymap("n", "<leader>cg", ":SetupGuide<CR>", opts)          -- Interactive setup guide
+
 -- Note: Plugin-specific keybindings will be defined in their respective config modules:
 -- - <leader>f* namespace: Telescope (find operations)
 -- - <leader>h* namespace: Harpoon (quick file navigation)

@@ -13,6 +13,8 @@ require("plugins")
 -- Load core configuration
 require("core.options")
 require("core.keymaps")
+require("core.devtools")
+require("core.setup_guide")
 
 -- Configure colorscheme with transparency
 vim.opt.termguicolors = false -- Disable for wal.vim compatibility

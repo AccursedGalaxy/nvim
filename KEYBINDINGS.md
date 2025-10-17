@@ -94,6 +94,17 @@
 |-----|--------|-------------|
 | `<leader>y` | Yazi | Open Yazi file manager |
 
+## Configuration Development (for modifying this config)
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>cr` | Config Reload | Reload all configuration modules |
+| `<leader>ch` | Config Health | Run configuration health check |
+| `<leader>cb` | Config Backup | Create timestamped config backup |
+| `<leader>cp` | Config Profile | Show plugin loading performance |
+| `<leader>ce` | Config Edit | Edit config file (with tab completion) |
+| `<leader>ct` | Config Test LSP | Test LSP functionality |
+| `<leader>cg` | Setup Guide | Interactive configuration guide |
+
 ## General Editing
 | Key | Action | Description |
 |-----|--------|-------------|

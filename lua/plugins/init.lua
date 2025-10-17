@@ -1,3 +1,23 @@
+-- ============================================================================
+-- Neovim Plugin Configuration
+-- ============================================================================
+-- This file defines all plugins using lazy.nvim
+-- Each plugin is categorized for easy understanding and modification
+--
+-- HOW TO ADD A PLUGIN:
+-- 1. Find the appropriate category below
+-- 2. Add your plugin using the spec() function
+-- 3. Follow the existing patterns for consistency
+-- 4. Run :Lazy sync to install
+--
+-- PLUGIN SPECIFICATION PATTERNS:
+-- - Basic: spec("author/plugin-name")
+-- - With config: spec({ "author/plugin-name", config = function() ... end })
+-- - Lazy loaded: spec({ "author/plugin-name", event = "VeryLazy" })
+-- - Command loaded: spec({ "author/plugin-name", cmd = "CommandName" })
+--
+-- For detailed plugin management, see CONFIG_ROADMAP.md
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -17,13 +37,21 @@ function spec(item)
 	table.insert(LAZY_PLUGIN_SPEC, item)
 end
 
--- Essential Colorscheme
+-- ============================================================================
+-- 🎨 APPEARANCE & THEMING
+-- ============================================================================
+
+-- Essential Colorscheme (wal integration with transparent background support)
 spec("dylanaraps/wal.vim")
 
--- Icons (required for some plugins)
+-- Icons (required for UI plugins like lualine, lspsaga)
 spec("nvim-tree/nvim-web-devicons")
 
--- Core Navigation Stack
+-- ============================================================================
+-- 🧭 NAVIGATION & FILE MANAGEMENT
+-- ============================================================================
+
+-- Core Navigation Stack (the primary workflow: Telescope → Harpoon → Yazi)
 spec("nvim-lua/plenary.nvim") -- Required dependency for telescope and harpoon
 spec({
 	"nvim-telescope/telescope.nvim",
@@ -50,7 +78,10 @@ spec({
 	},
 })
 
--- Language Support - LSP and Completion
+-- ============================================================================
+-- 💻 LANGUAGE SUPPORT & DEVELOPMENT
+-- ============================================================================
+
 spec({
 	"williamboman/mason.nvim",
 	cmd = "Mason",
@@ -101,7 +132,10 @@ spec({
 	end,
 })
 
--- Git Integration
+-- ============================================================================
+-- 🐙 GIT INTEGRATION
+-- ============================================================================
+
 spec({
 	"tpope/vim-fugitive",
 	cmd = { "Git", "Gdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete", "GBrowse", "GRemove", "GRename", "Glgrep", "Gedit" },
@@ -110,7 +144,10 @@ spec({
 	},
 })
 
--- UI Components
+-- ============================================================================
+-- 🖥️  USER INTERFACE
+-- ============================================================================
+
 spec({
 	"nvim-lualine/lualine.nvim",
 	event = "VeryLazy",
@@ -183,7 +220,10 @@ spec({
 	end,
 })
 
--- Essential Editing
+-- ============================================================================
+-- ✏️  EDITING ENHANCEMENTS
+-- ============================================================================
+
 spec({
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
@@ -211,7 +251,10 @@ spec({
 	end,
 })
 
--- Tmux + Neovim seamless navigation
+-- ============================================================================
+-- 🖥️  TERMINAL & INTEGRATION
+-- ============================================================================
+
 spec({
 	"christoomey/vim-tmux-navigator",
 	keys = {
@@ -293,7 +336,10 @@ spec({
 	end,
 })
 
--- Session Management
+-- ============================================================================
+-- 💾 SESSION & PERSISTENCE
+-- ============================================================================
+
 spec({
 	"folke/persistence.nvim",
 	event = "BufReadPre",
@@ -305,7 +351,10 @@ spec({
 	end,
 })
 
--- Enhanced Search & Replace
+-- ============================================================================
+-- 🔍 SEARCH & REPLACE
+-- ============================================================================
+
 spec({
 	"nvim-pack/nvim-spectre",
 	event = "VeryLazy",
@@ -314,7 +363,10 @@ spec({
 	end,
 })
 
--- Text Objects & Surround
+-- ============================================================================
+-- 🎯 TEXT MANIPULATION
+-- ============================================================================
+
 spec({
 	"kylechui/nvim-surround",
 	version = "*",
@@ -324,7 +376,10 @@ spec({
 	end,
 })
 
--- Go Development Tools
+-- ============================================================================
+-- 🛠️  LANGUAGE-SPECIFIC TOOLS
+-- ============================================================================
+
 spec({
 	"fatih/vim-go",
 	ft = "go",
@@ -342,7 +397,10 @@ spec({
 	end,
 })
 
--- Auto-save
+-- ============================================================================
+-- ⚡ PRODUCTIVITY & AUTOMATION
+-- ============================================================================
+
 spec({
 	"Pocco81/auto-save.nvim",
 	config = function()
