@@ -55,6 +55,40 @@
 | `<leader>gd` | Git Diff | Show diff in split |
 | `<leader>gh` | Git History | Show git log |
 
+## Diagnostics & LSP
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>xx` | Diagnostics | Toggle diagnostics panel |
+| `<leader>xX` | Buffer Diagnostics | Show buffer diagnostics |
+| `<leader>cs` | Symbols | Toggle symbols panel |
+| `<leader>cl` | LSP Info | Toggle LSP definitions/references |
+| `<leader>xL` | Location List | Toggle location list |
+| `<leader>xQ` | Quickfix List | Toggle quickfix list |
+
+## Go Development (Go files only)
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>lg` | Go Run | Run Go program |
+| `<leader>lt` | Go Test | Run Go tests |
+| `<leader>lb` | Go Build | Build Go program |
+| `<leader>lc` | Go Coverage | Show test coverage |
+| `<leader>li` | Go Imports | Organize imports |
+
+## Terminal & Sessions
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<C-\>` | Toggle Terminal | Open/close floating terminal |
+| `<leader>qs` | Session Load | Restore last session |
+| `<leader>ql` | Session Last | Load last session |
+| `<leader>qd` | Session Stop | Stop session saving |
+
+## Enhanced Search
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>S` | Spectre | Global search and replace |
+| `<leader>sw` | Search Word | Search current word globally |
+| `<leader>sp` | Search File | Search in current file |
+
 ## File Management
 | Key | Action | Description |
 |-----|--------|-------------|

@@ -34,6 +34,24 @@ keymap("n", "<leader>sh", ":split<CR>", opts) -- Split horizontally
 -- Search and replace
 keymap("n", "<leader>rr", ":%s//g<Left><Left>", opts) -- Find and replace
 
+-- Session management keybindings (persistence plugin)
+keymap("n", "<leader>qs", ':lua require("persistence").load()<CR>', opts)      -- Load last session
+keymap("n", "<leader>ql", ':lua require("persistence").load({ last = true })<CR>', opts)  -- Load last session
+keymap("n", "<leader>qd", ':lua require("persistence").stop()<CR>', opts)     -- Stop session saving
+
+-- Trouble keybindings (better diagnostics)
+keymap("n", "<leader>xx", ":Trouble diagnostics toggle<CR>", opts)           -- Toggle diagnostics
+keymap("n", "<leader>xX", ":Trouble diagnostics toggle filter.buf=0<CR>", opts) -- Buffer diagnostics
+keymap("n", "<leader>cs", ":Trouble symbols toggle focus=false<CR>", opts)   -- Symbols
+keymap("n", "<leader>cl", ":Trouble lsp toggle focus=false win.position=right<CR>", opts) -- LSP info
+keymap("n", "<leader>xL", ":Trouble loclist toggle<CR>", opts)               -- Location list
+keymap("n", "<leader>xQ", ":Trouble qflist toggle<CR>", opts)                -- Quickfix list
+
+-- Spectre keybindings (global search/replace)
+keymap("n", "<leader>S", ':lua require("spectre").toggle()<CR>', opts)                   -- Toggle Spectre
+keymap("n", "<leader>sw", ':lua require("spectre").open_visual({select_word=true})<CR>', opts) -- Search word
+keymap("n", "<leader>sp", ':lua require("spectre").open_file_search({select_word=true})<CR>', opts) -- Search file
+
 -- Note: Plugin-specific keybindings will be defined in their respective config modules:
 -- - <leader>f* namespace: Telescope (find operations)
 -- - <leader>h* namespace: Harpoon (quick file navigation)

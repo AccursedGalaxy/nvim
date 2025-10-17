@@ -13,13 +13,10 @@ require("mason").setup({
 	}
 })
 
--- LSP Configuration
-local lspconfig = require("lspconfig")
-
 -- LSP keybindings - <leader>l* namespace
 local on_attach = function(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	
+
 	-- LSP actions
 	keymap("n", "<leader>ld", vim.lsp.buf.definition, bufopts)
 	keymap("n", "<leader>lr", vim.lsp.buf.references, bufopts)
@@ -30,21 +27,32 @@ local on_attach = function(client, bufnr)
 	keymap("n", "<leader>la", vim.lsp.buf.code_action, bufopts)
 	keymap("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, bufopts)
 	keymap("n", "<leader>lR", vim.lsp.buf.rename, bufopts)
-	
+
 	-- Diagnostics
 	keymap("n", "<leader>le", vim.diagnostic.open_float, bufopts)
 	keymap("n", "[d", vim.diagnostic.goto_prev, bufopts)
 	keymap("n", "]d", vim.diagnostic.goto_next, bufopts)
 	keymap("n", "<leader>lq", vim.diagnostic.setloclist, bufopts)
+
+	-- Go-specific keybindings
+	if client.name == "gopls" then
+		keymap("n", "<leader>lg", ":GoRun<CR>", bufopts)        -- Run Go program
+		keymap("n", "<leader>lt", ":GoTest<CR>", bufopts)       -- Run Go tests
+		keymap("n", "<leader>lb", ":GoBuild<CR>", bufopts)      -- Build Go program
+		keymap("n", "<leader>lc", ":GoCoverage<CR>", bufopts)   -- Show test coverage
+		keymap("n", "<leader>li", ":GoImports<CR>", bufopts)    -- Organize imports
+	end
 end
 
--- Configure LSP servers
+-- Configure LSP servers using vim.lsp.config (Neovim 0.11+ API)
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Python
-lspconfig.pyright.setup({
-	on_attach = on_attach,
+vim.lsp.config.pyright = {
+	cmd = { "pyright-langserver", "--stdio" },
+	filetypes = { "python" },
 	capabilities = capabilities,
+	on_attach = on_attach,
 	settings = {
 		python = {
 			analysis = {
@@ -53,27 +61,56 @@ lspconfig.pyright.setup({
 			}
 		}
 	}
-})
+}
+vim.lsp.enable("pyright")
 
 -- Go
-lspconfig.gopls.setup({
-	on_attach = on_attach,
+vim.lsp.config.gopls = {
+	cmd = { "gopls" },
+	filetypes = { "go", "gomod", "gowork", "gotmpl" },
 	capabilities = capabilities,
+	on_attach = on_attach,
 	settings = {
 		gopls = {
 			analyses = {
+				-- Disable noisy warnings
+				ST1000 = false, -- Disable package comment warnings
+				ST1003 = false, -- Disable lowercase variable warnings
+				ST1016 = false, -- Disable time naming warnings
+				ST1020 = false, -- Disable comment on exported warnings
+				ST1021 = false, -- Disable comment on exported warnings
+				ST1022 = false, -- Disable comment on exported warnings
+				SA9003 = false, -- Disable empty branch warnings
+				-- Enable useful checks
 				unusedparams = true,
+				shadow = true,
+				unusedwrite = true,
+				useany = true,
+				simplifyrange = true,
+				simplifycompositelit = true,
 			},
 			staticcheck = true,
 			gofumpt = true,
+			hints = {
+				assignVariableTypes = true,
+				compositeLiteralFields = true,
+				compositeLiteralTypes = true,
+				constantValues = true,
+				functionTypeParameters = true,
+				parameterNames = true,
+				rangeVariableTypes = true,
+			},
 		},
 	},
-})
+}
+vim.lsp.enable("gopls")
 
 -- TypeScript
-lspconfig.ts_ls.setup({
-	on_attach = on_attach,
+vim.lsp.config.ts_ls = {
+	cmd = { "typescript-language-server", "--stdio" },
+	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 	capabilities = capabilities,
+	on_attach = on_attach,
 	settings = {
 		typescript = {
 			inlayHints = {
@@ -98,7 +135,8 @@ lspconfig.ts_ls.setup({
 			},
 		},
 	},
-})
+}
+vim.lsp.enable("ts_ls")
 
 -- Completion Setup (nvim-cmp)
 local cmp = require("cmp")

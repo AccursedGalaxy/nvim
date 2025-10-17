@@ -20,6 +20,9 @@ end
 -- Essential Colorscheme
 spec("dylanaraps/wal.vim")
 
+-- Icons (required for some plugins)
+spec("nvim-tree/nvim-web-devicons")
+
 -- Core Navigation Stack
 spec("nvim-lua/plenary.nvim") -- Required dependency for telescope and harpoon
 spec({
@@ -54,8 +57,18 @@ spec({
 	event = "BufReadPre",
 })
 spec({
-	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
+	"williamboman/mason-lspconfig.nvim",
+	event = "BufReadPre",
+	config = function()
+		require("mason-lspconfig").setup({
+			ensure_installed = {
+				"gopls",     -- Go
+				"pyright",   -- Python
+				"ts_ls",     -- TypeScript
+			},
+			automatic_installation = true,
+		})
+	end,
 })
 
 -- Completion System
@@ -207,6 +220,148 @@ spec({
 		{ "<C-k>", "<cmd>TmuxNavigateUp<cr>", desc = "Go to upper pane" },
 		{ "<C-l>", "<cmd>TmuxNavigateRight<cr>", desc = "Go to right pane" },
 	},
+})
+
+-- Enhanced Git Integration
+spec({
+	"lewis6991/gitsigns.nvim",
+	event = { "BufReadPre", "BufNewFile" },
+	config = function()
+		require("gitsigns").setup({
+			signs = {
+				add = { text = "│" },
+				change = { text = "│" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+			},
+			current_line_blame = true,
+			current_line_blame_opts = {
+				delay = 100,
+			},
+		})
+	end,
+})
+
+-- Better Diagnostics & LSP UI
+spec({
+	"folke/trouble.nvim",
+	event = "VeryLazy",
+	config = function()
+		require("trouble").setup()
+	end,
+})
+
+-- LSP Saga for enhanced LSP experience
+spec({
+	"nvimdev/lspsaga.nvim",
+	event = "LspAttach",
+	config = function()
+		require("lspsaga").setup({
+			ui = {
+				border = "rounded",
+			},
+			lightbulb = {
+				enable = false,
+			},
+			outline = {
+				layout = "float",
+			},
+		})
+	end,
+	dependencies = {
+		"nvim-treesitter/nvim-treesitter",
+		"nvim-tree/nvim-web-devicons",
+	},
+})
+
+-- Enhanced Terminal Integration
+spec({
+	"akinsho/toggleterm.nvim",
+	version = "*",
+	config = function()
+		require("toggleterm").setup({
+			size = 20,
+			open_mapping = [[<c-\>]],
+			shade_terminals = true,
+			shading_factor = 2,
+			direction = "float",
+			float_opts = {
+				border = "curved",
+			},
+		})
+	end,
+})
+
+-- Session Management
+spec({
+	"folke/persistence.nvim",
+	event = "BufReadPre",
+	config = function()
+		require("persistence").setup({
+			dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
+			options = { "buffers", "curdir", "tabpages", "winsize" },
+		})
+	end,
+})
+
+-- Enhanced Search & Replace
+spec({
+	"nvim-pack/nvim-spectre",
+	event = "VeryLazy",
+	config = function()
+		require("spectre").setup()
+	end,
+})
+
+-- Text Objects & Surround
+spec({
+	"kylechui/nvim-surround",
+	version = "*",
+	event = "VeryLazy",
+	config = function()
+		require("nvim-surround").setup({})
+	end,
+})
+
+-- Go Development Tools
+spec({
+	"fatih/vim-go",
+	ft = "go",
+	config = function()
+		-- Disable vim-go's LSP since we use gopls
+		vim.g.go_gopls_enabled = 0
+		vim.g.go_code_completion_enabled = 0
+		vim.g.go_fmt_autosave = 0  -- We handle formatting with gopls
+		vim.g.go_imports_autosave = 0  -- We handle imports with gopls
+		vim.g.go_mod_fmt_autosave = 0
+		vim.g.go_doc_keywordprg_enabled = 0
+		vim.g.go_def_mapping_enabled = 0
+		vim.g.go_textobj_enabled = 0
+		vim.g.go_list_type = "quickfix"
+	end,
+})
+
+-- Auto-save
+spec({
+	"Pocco81/auto-save.nvim",
+	config = function()
+		require("auto-save").setup({
+			enabled = true,
+			execution_message = {
+				message = "",
+			},
+			trigger_events = { "InsertLeave", "TextChanged" },
+			conditions = {
+				exists = true,
+				filetype_is_not = {},
+				modifiable = true,
+			},
+			write_all_buffers = false,
+			on_off_commands = true,
+			clean_command_line_interval = 0,
+		})
+	end,
 })
 
 -- Setup lazy.nvim with the specified plugins
