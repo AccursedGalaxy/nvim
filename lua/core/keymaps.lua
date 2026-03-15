@@ -20,3 +20,7 @@ map("n", "<S-l>", "$", { desc = "move to end" })
 -- Move selected lines
 map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+
+-- Stay in visual mode when indenting
+map("v", "<", "<gv", { desc = "Indent left" })
+map("v", ">", ">gv", { desc = "Indent right" })
