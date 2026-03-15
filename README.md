@@ -12,7 +12,7 @@
 *a minimal, fast neovim configuration*
 
 ![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat-square&logo=lua&logoColor=white)
-![Neovim](https://img.shields.io/badge/Neovim-0.10+-57A143?style=flat-square&logo=neovim&logoColor=white)
+![Neovim](https://img.shields.io/badge/Neovim-0.11+-57A143?style=flat-square&logo=neovim&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 
 </div>
