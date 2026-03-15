@@ -60,6 +60,7 @@ nvim/
 | [lazydev.nvim](https://github.com/folke/lazydev.nvim) | Neovim API completion for Lua |
 | [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless tmux/nvim splits |
 | [nvim-autopairs](https://github.com/windwp/nvim-autopairs) | Bracket pairing |
+| [alpha-nvim](https://github.com/goolord/alpha-nvim) | Dashboard / start screen |
 
 ---
 
