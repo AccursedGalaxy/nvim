@@ -73,16 +73,12 @@ return {
 
           map("gd", vim.lsp.buf.definition, "Go to definition")
           map("gr", vim.lsp.buf.references, "Go to references")
-          map("<leader>lh", vim.lsp.buf.hover, "Hover documentation")
+          map("<leader>lh", function()
+            vim.lsp.buf.hover({ border = "rounded", title = " docs ", max_width = 80 })
+          end, "Hover documentation")
         end,
       })
 
-      -- Style hover float: title + colored border
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-        title = " docs ",
-        max_width = 80,
-      })
       vim.api.nvim_set_hl(0, "FloatBorder", { link = "DiagnosticHint" })
 
       -- Override lua_ls to know about vim globals
