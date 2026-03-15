@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/core/keymaps.lua
-vim.g.mapleader = " "  -- Space as leader, must be set before lazy.nvim loads
+vim.g.mapleader = " " -- Space as leader, must be set before lazy.nvim loads
 vim.g.maplocalleader = "\\"
 
 local map = vim.keymap.set
@@ -9,13 +9,17 @@ local map = vim.keymap.set
 -- Back to file nav
 map("n", "<leader>pv", "<cmd>:Ex<CR>", { desc = "Save file" })
 
--- Move to top and bottom
+-- Move to top-bottom/start-end in normal mode
 map("n", "<S-j>", "G", { desc = "move to bottom" })
 map("n", "<S-k>", "gg", { desc = "move to top" })
-
--- Move to start and end
 map("n", "<S-h>", "0", { desc = "move to start" })
 map("n", "<S-l>", "$", { desc = "move to end" })
+
+-- Move to top-bottom/start-end in visual mode
+map("v", "<S-j>", "G", { desc = "move to bottom" })
+map("v", "<S-k>", "gg", { desc = "move to top" })
+map("v", "<S-h>", "0", { desc = "move to start" })
+map("v", "<S-l>", "$", { desc = "move to end" })
 
 -- Move selected lines
 map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
