@@ -3,12 +3,11 @@ return {
 	event = { "BufReadPre", "BufNewFile" },
 	opts = {
 		signs = {
-			add = { text = "▎" },
-			change = { text = "▎" },
-			delete = { text = "" },
-			topdelete = { text = "" },
+			add = { text = "│" },
+			change = { text = "│" },
+			delete = { text = "_" },
 			changedelete = { text = "~" },
-			untracked = { text = "╎" },
+			untracked = { text = "┆" },
 		},
 		signs_staged_enable = true,
 		on_attach = function(buf)
