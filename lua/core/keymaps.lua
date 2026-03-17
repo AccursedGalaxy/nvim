@@ -28,3 +28,8 @@ map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 -- Stay in visual mode when indenting
 map("v", "<", "<gv", { desc = "Indent left" })
 map("v", ">", ">gv", { desc = "Indent right" })
+
+-- Run command in a new tmux pane below
+map("n", "<leader>tr", function()
+	vim.fn.system("tmux split-window -v -l 15 ; $SHELL'")
+end, { desc = "Run command in tmux pane below" })

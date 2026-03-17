@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/core/options.lua
-local opt = vim.opt  -- vim.opt is a Lua table that maps to :set in vimscript
+local opt = vim.opt -- vim.opt is a Lua table that maps to :set in vimscript
 
 -- Line numbers
 opt.number = true
@@ -13,20 +13,31 @@ opt.autoindent = true
 
 -- Search
 opt.ignorecase = true
-opt.smartcase = true    -- override ignorecase if search has uppercase
-opt.hlsearch = false    -- don't keep matches highlighted after search
+opt.smartcase = true -- override ignorecase if search has uppercase
+opt.hlsearch = false -- don't keep matches highlighted after search
 opt.incsearch = true
 
 -- Appearance
 opt.termguicolors = true
-opt.signcolumn = "yes"  -- always show, prevents layout shift
+opt.signcolumn = "yes" -- always show, prevents layout shift
 opt.cursorline = true
-opt.scrolloff = 8       -- keep 8 lines above/below cursor
+opt.scrolloff = 8 -- keep 8 lines above/below cursor
 
 -- Behaviour
 opt.wrap = false
-opt.clipboard = "unnamedplus"  -- use system clipboard
+opt.clipboard = "unnamedplus" -- use system clipboard
 opt.splitright = true
 opt.splitbelow = true
-opt.undofile = true     -- persistent undo across sessions
-opt.updatetime = 250    -- faster CursorHold events (used by LSP)
+opt.undofile = true -- persistent undo across sessions
+opt.updatetime = 250 -- faster CursorHold events (used by LSP)
+
+-- Wrap long lines in prose filetypes
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "text" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true -- break at word boundaries, not mid-word
+		vim.keymap.set("n", "j", "gj", { buffer = true })
+		vim.keymap.set("n", "k", "gk", { buffer = true })
+	end,
+})
