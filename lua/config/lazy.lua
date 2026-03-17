@@ -25,4 +25,5 @@ require("lazy").setup({
   install = { colorscheme = { "everforest" } },
   checker = { enabled = false },
   change_detection = { notify = false },
+  rocks = { enabled = false },
 })
