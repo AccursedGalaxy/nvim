@@ -9,12 +9,6 @@ local map = vim.keymap.set
 -- Back to file nav
 map("n", "<leader>pv", "<cmd>Ex<CR>", { desc = "Open Netrw" })
 
--- Move to top-bottom/start-end in normal mode
-map("n", "<S-j>", "G", { desc = "move to bottom" })
-map("n", "<S-k>", "gg", { desc = "move to top" })
-map("n", "<S-h>", "0", { desc = "move to start" })
-map("n", "<S-l>", "$", { desc = "move to end" })
-
 -- Move to top-bottom/start-end in visual mode
 map("v", "<S-j>", "G", { desc = "move to bottom" })
 map("v", "<S-k>", "gg", { desc = "move to top" })
