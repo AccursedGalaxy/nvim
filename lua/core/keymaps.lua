@@ -7,7 +7,7 @@ local map = vim.keymap.set
 -- mode: "n" normal, "i" insert, "v" visual, "x" visual-only, "t" terminal
 
 -- Back to file nav
-map("n", "<leader>pv", "<cmd>:Ex<CR>", { desc = "Save file" })
+map("n", "<leader>pv", "<cmd>Ex<CR>", { desc = "Open Netrw" })
 
 -- Move to top-bottom/start-end in normal mode
 map("n", "<S-j>", "G", { desc = "move to bottom" })
@@ -31,5 +31,5 @@ map("v", ">", ">gv", { desc = "Indent right" })
 
 -- Run command in a new tmux pane below
 map("n", "<leader>tr", function()
-	vim.fn.system("tmux split-window -v -l 15 ; $SHELL'")
+	vim.fn.system("tmux split-window -v -l 15 ; $SHELL")
 end, { desc = "Run command in tmux pane below" })
