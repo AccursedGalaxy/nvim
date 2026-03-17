@@ -61,6 +61,7 @@ nvim/
 | [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless tmux/nvim splits |
 | [nvim-autopairs](https://github.com/windwp/nvim-autopairs) | Bracket pairing |
 | [alpha-nvim](https://github.com/goolord/alpha-nvim) | Dashboard / start screen |
+| [cursed.nvim](https://github.com/AccursedGalaxy/cursed.nvim) | Send diagnostics / selections to Claude Code in tmux |
 
 ---
 
@@ -71,8 +72,6 @@ nvim/
 ### Navigation
 | Key | Action |
 |-----|--------|
-| `<S-h>` / `<S-l>` | Line start / end |
-| `<S-j>` / `<S-k>` | File bottom / top |
 | `<leader>pv` | File explorer (netrw) |
 
 ### Find
@@ -103,13 +102,19 @@ nvim/
 | `<leader>gp` | Preview hunk |
 | `<leader>gb` | Blame line |
 
-### Diagnostics
+### Diagnostics (Trouble)
 | Key | Action |
 |-----|--------|
 | `<leader>xx` | Diagnostics (all) |
 | `<leader>xX` | Diagnostics (buffer) |
-| `<leader>cs` | Symbols |
-| `<leader>cl` | LSP references panel |
+
+### Claude Code (cursed.nvim)
+| Key | Action |
+|-----|--------|
+| `<leader>cd` | Send diagnostics to Claude |
+| `<leader>cs` | Send visual selection to Claude |
+| `<leader>cC` | Clear Claude context (`/clear`) |
+| `<leader>c:` | Send arbitrary command to Claude |
 
 ---
 
