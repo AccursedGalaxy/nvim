@@ -73,9 +73,11 @@ return {
 
 					map("gd", vim.lsp.buf.definition, "Go to definition")
 					map("gr", vim.lsp.buf.references, "Go to references")
-					map("<leader>lh", function()
+					local function hover()
 						vim.lsp.buf.hover({ border = "rounded", title = " docs ", max_width = 80 })
-					end, "Hover documentation")
+					end
+					map("K", hover, "Hover documentation")
+					map("<leader>lh", hover, "Hover documentation")
 				end,
 			})
 

@@ -167,7 +167,7 @@ local function apply_highlights(c)
 	-- Base UI — keep transparent backgrounds
 	hi(0, "Normal", { fg = c.on_background, bg = "NONE" })
 	hi(0, "NormalNC", { fg = c.on_background, bg = "NONE" })
-	hi(0, "NormalFloat", { fg = c.on_surface, bg = "NONE" })
+	hi(0, "NormalFloat", { fg = c.on_surface, bg = c.surface_container })
 	hi(0, "EndOfBuffer", { fg = c.surface_container, bg = "NONE" })
 	hi(0, "SignColumn", { bg = "NONE" })
 	hi(0, "StatusLine", { fg = c.on_surface, bg = "NONE" })
@@ -355,6 +355,18 @@ function M.apply()
 		vim.o.termguicolors = true
 		local palette = build_syntax_palette(colors)
 		apply_highlights(palette)
+		vim.o.pumblend = 20
+		-- Make floating windows semi-transparent to match the transparent look
+		vim.api.nvim_create_autocmd("WinNew", {
+			group = vim.api.nvim_create_augroup("FloatBlend", { clear = true }),
+			callback = function()
+				local win = vim.api.nvim_get_current_win()
+				local cfg = vim.api.nvim_win_get_config(win)
+				if cfg.relative ~= "" then
+					vim.wo[win].winblend = 20
+				end
+			end,
+		})
 	else
 		-- Fallback: load Everforest
 		pcall(function()
