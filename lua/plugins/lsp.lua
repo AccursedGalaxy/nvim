@@ -78,6 +78,7 @@ return {
 					end
 					map("K", hover, "Hover documentation")
 					map("<leader>lh", hover, "Hover documentation")
+					map("<leader>lr", vim.lsp.buf.rename, "Rename symbol")
 				end,
 			})
 
