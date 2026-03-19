@@ -91,7 +91,7 @@ return {
 				},
 			})
 
-			-- Auto-detect .venv for pyright
+			-- Auto-detect .venv for pyright, re-evaluated on dir changes
 			local function find_venv()
 				local dir = vim.fn.getcwd()
 				while dir ~= "/" do
@@ -103,16 +103,33 @@ return {
 				end
 			end
 
-			local venv_path = find_venv()
-			if venv_path then
-				vim.lsp.config("pyright", {
-					settings = {
-						python = {
-							pythonPath = venv_path .. "/bin/python",
-						},
-					},
-				})
+			local function update_pyright_venv()
+				local venv_path = find_venv()
+				if venv_path then
+					local clients = vim.lsp.get_clients({ name = "pyright" })
+					for _, client in ipairs(clients) do
+						client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
+							python = { pythonPath = venv_path .. "/bin/python" },
+						})
+						client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+					end
+				end
 			end
+
+			local venv_group = vim.api.nvim_create_augroup("UserPyrightVenv", { clear = true })
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = venv_group,
+				callback = function(ev)
+					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					if client and client.name == "pyright" then
+						update_pyright_venv()
+					end
+				end,
+			})
+			vim.api.nvim_create_autocmd("DirChanged", {
+				group = venv_group,
+				callback = update_pyright_venv,
+			})
 		end,
 	},
 }
