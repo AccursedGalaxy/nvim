@@ -80,12 +80,16 @@ local function hsl_to_rgb(h, s, l)
 	return hue2rgb(p, q, hn + 1 / 3), hue2rgb(p, q, hn), hue2rgb(p, q, hn - 1 / 3)
 end
 
---- Boost saturation and normalize lightness for syntax visibility on dark bg
-local function vibrant(hex, min_sat, target_l)
+--- Gently boost saturation and lightness for syntax visibility on dark bg
+--- while preserving the natural feel of the M3 palette.
+---@param hex string input color
+---@param sat_boost number how much to add to saturation (0-1), clamped at 1
+---@param l_floor number minimum lightness to ensure readability
+local function enliven(hex, sat_boost, l_floor)
 	local r, g, b = hex_to_rgb(hex)
 	local h, s, l = rgb_to_hsl(r, g, b)
-	s = math.max(s, min_sat)
-	l = target_l
+	s = math.min(s + sat_boost, 1.0)
+	l = math.max(l, l_floor)
 	r, g, b = hsl_to_rgb(h, s, l)
 	return rgb_to_hex(r, g, b)
 end
@@ -128,29 +132,29 @@ local function build_syntax_palette(c)
 	local tr, tg, tb = hex_to_rgb(c.tertiary)
 	local ter_h = rgb_to_hsl(tr, tg, tb)
 
-	-- Vibrant primary — the anchor, bold and saturated
-	p.v_primary = vibrant(c.primary, 0.50, 0.72)
+	-- Primary — gentle saturation nudge, ensure readable lightness
+	p.v_primary = enliven(c.primary, 0.15, 0.65)
 
-	-- Vibrant secondary — rotate 120° if too close to primary
-	if hue_diff(base_h, sec_h) < 40 or base_s < 0.15 then
-		p.v_secondary = vibrant(hue_shift(c.primary, 120), 0.45, 0.72)
+	-- Secondary — rotate hue only if truly indistinguishable from primary
+	if hue_diff(base_h, sec_h) < 30 and base_s < 0.12 then
+		p.v_secondary = enliven(hue_shift(c.primary, 120), 0.15, 0.65)
 	else
-		p.v_secondary = vibrant(c.secondary, 0.45, 0.72)
+		p.v_secondary = enliven(c.secondary, 0.15, 0.65)
 	end
 
-	-- Vibrant tertiary — rotate 240° if too close to primary or secondary
+	-- Tertiary — rotate only when palette is genuinely monochromatic
 	local vsr, vsg, vsb = hex_to_rgb(p.v_secondary)
 	local v_sec_h = rgb_to_hsl(vsr, vsg, vsb)
-	if hue_diff(base_h, ter_h) < 40 or hue_diff(v_sec_h, ter_h) < 40 or base_s < 0.15 then
-		p.v_tertiary = vibrant(hue_shift(c.primary, 240), 0.45, 0.72)
+	if (hue_diff(base_h, ter_h) < 30 and base_s < 0.12) or hue_diff(v_sec_h, ter_h) < 25 then
+		p.v_tertiary = enliven(hue_shift(c.primary, 240), 0.15, 0.65)
 	else
-		p.v_tertiary = vibrant(c.tertiary, 0.45, 0.72)
+		p.v_tertiary = enliven(c.tertiary, 0.15, 0.65)
 	end
 
-	-- Dim variants — lower lightness for subordinate syntax roles
-	p.v_primary_dim = vibrant(p.v_primary, 0.40, 0.60)
-	p.v_secondary_dim = vibrant(p.v_secondary, 0.35, 0.60)
-	p.v_tertiary_dim = vibrant(p.v_tertiary, 0.35, 0.60)
+	-- Dim variants — slightly muted for subordinate roles (types, constants)
+	p.v_primary_dim = enliven(c.primary_fixed_dim, 0.10, 0.55)
+	p.v_secondary_dim = enliven(c.secondary_fixed_dim, 0.10, 0.55)
+	p.v_tertiary_dim = enliven(c.tertiary_fixed_dim, 0.10, 0.55)
 
 	return p
 end
@@ -216,16 +220,16 @@ local function apply_highlights(c)
 	hi(0, "Statement", { fg = c.v_secondary })
 	hi(0, "Conditional", { fg = c.v_secondary })
 	hi(0, "Repeat", { fg = c.v_secondary })
-	hi(0, "Label", { fg = c.v_secondary, italic = true })
+	hi(0, "Label", { fg = c.v_secondary })
 	hi(0, "Operator", { fg = c.on_surface_variant })
-	hi(0, "Keyword", { fg = c.v_secondary, italic = true })
+	hi(0, "Keyword", { fg = c.v_secondary })
 	hi(0, "Exception", { fg = c.error })
 	hi(0, "PreProc", { fg = c.v_secondary_dim })
 	hi(0, "Include", { fg = c.v_secondary_dim })
 	hi(0, "Define", { fg = c.v_secondary_dim })
 	hi(0, "Macro", { fg = c.v_secondary_dim, bold = true })
 	hi(0, "Type", { fg = c.v_primary_dim })
-	hi(0, "StorageClass", { fg = c.v_secondary, italic = true })
+	hi(0, "StorageClass", { fg = c.v_secondary })
 	hi(0, "Structure", { fg = c.v_primary_dim, bold = true })
 	hi(0, "Typedef", { fg = c.v_primary_dim })
 	hi(0, "Special", { fg = c.v_primary })
@@ -251,23 +255,23 @@ local function apply_highlights(c)
 
 	-- ── TreeSitter ──────────────────────────────────────────────────
 	hi(0, "@variable", { fg = c.on_surface })
-	hi(0, "@variable.builtin", { fg = c.v_secondary, italic = true })
+	hi(0, "@variable.builtin", { fg = c.v_secondary })
 	hi(0, "@variable.parameter", { fg = c.on_surface_variant })
 	hi(0, "@constant", { link = "Constant" })
 	hi(0, "@constant.builtin", { fg = c.v_tertiary_dim, bold = true })
 	hi(0, "@function", { link = "Function" })
-	hi(0, "@function.builtin", { fg = c.v_primary, bold = true, italic = true })
+	hi(0, "@function.builtin", { fg = c.v_primary, bold = true })
 	hi(0, "@function.call", { fg = c.v_primary })
 	hi(0, "@function.method", { fg = c.v_primary })
 	hi(0, "@function.method.call", { fg = c.v_primary })
 	hi(0, "@keyword", { link = "Keyword" })
 	hi(0, "@keyword.return", { fg = c.v_secondary, bold = true })
-	hi(0, "@keyword.function", { fg = c.v_secondary, italic = true })
+	hi(0, "@keyword.function", { fg = c.v_secondary })
 	hi(0, "@keyword.operator", { fg = c.on_surface_variant })
 	hi(0, "@string", { link = "String" })
 	hi(0, "@string.escape", { fg = c.v_secondary, bold = true })
 	hi(0, "@type", { link = "Type" })
-	hi(0, "@type.builtin", { fg = c.v_primary_dim, italic = true })
+	hi(0, "@type.builtin", { fg = c.v_primary_dim })
 	hi(0, "@property", { fg = c.on_surface_variant })
 	hi(0, "@constructor", { fg = c.v_primary_dim })
 	hi(0, "@operator", { link = "Operator" })
@@ -276,7 +280,7 @@ local function apply_highlights(c)
 	hi(0, "@punctuation.delimiter", { fg = c.on_surface_variant })
 	hi(0, "@comment", { link = "Comment" })
 	hi(0, "@tag", { fg = c.v_primary })
-	hi(0, "@tag.attribute", { fg = c.v_tertiary, italic = true })
+	hi(0, "@tag.attribute", { fg = c.v_tertiary })
 	hi(0, "@tag.delimiter", { fg = c.on_surface_variant })
 	hi(0, "@module", { fg = c.on_surface_variant })
 	hi(0, "@number", { link = "Number" })
