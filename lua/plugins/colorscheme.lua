@@ -13,12 +13,154 @@ local function load_colors()
 	return nil
 end
 
---- Apply Material You highlight groups
----@param c table color tokens
+-- ── Color manipulation ──────────────────────────────────────────────
+
+--- Convert hex to RGB (0-1)
+local function hex_to_rgb(hex)
+	hex = hex:gsub("#", "")
+	return tonumber(hex:sub(1, 2), 16) / 255, tonumber(hex:sub(3, 4), 16) / 255, tonumber(hex:sub(5, 6), 16) / 255
+end
+
+--- Convert RGB (0-1) to hex
+local function rgb_to_hex(r, g, b)
+	return string.format(
+		"#%02x%02x%02x",
+		math.floor(r * 255 + 0.5),
+		math.floor(g * 255 + 0.5),
+		math.floor(b * 255 + 0.5)
+	)
+end
+
+--- RGB (0-1) → HSL (h: 0-360, s/l: 0-1)
+local function rgb_to_hsl(r, g, b)
+	local max, min = math.max(r, g, b), math.min(r, g, b)
+	local l = (max + min) / 2
+	if max == min then
+		return 0, 0, l
+	end
+	local d = max - min
+	local s = l > 0.5 and d / (2 - max - min) or d / (max + min)
+	local h
+	if max == r then
+		h = (g - b) / d + (g < b and 6 or 0)
+	elseif max == g then
+		h = (b - r) / d + 2
+	else
+		h = (r - g) / d + 4
+	end
+	return h * 60, s, l
+end
+
+--- HSL → RGB (0-1)
+local function hsl_to_rgb(h, s, l)
+	if s == 0 then
+		return l, l, l
+	end
+	local function hue2rgb(p, q, t)
+		if t < 0 then
+			t = t + 1
+		end
+		if t > 1 then
+			t = t - 1
+		end
+		if t < 1 / 6 then
+			return p + (q - p) * 6 * t
+		end
+		if t < 1 / 2 then
+			return q
+		end
+		if t < 2 / 3 then
+			return p + (q - p) * (2 / 3 - t) * 6
+		end
+		return p
+	end
+	local q = l < 0.5 and l * (1 + s) or l + s - l * s
+	local p = 2 * l - q
+	local hn = h / 360
+	return hue2rgb(p, q, hn + 1 / 3), hue2rgb(p, q, hn), hue2rgb(p, q, hn - 1 / 3)
+end
+
+--- Boost saturation and normalize lightness for syntax visibility on dark bg
+local function vibrant(hex, min_sat, target_l)
+	local r, g, b = hex_to_rgb(hex)
+	local h, s, l = rgb_to_hsl(r, g, b)
+	s = math.max(s, min_sat)
+	l = target_l
+	r, g, b = hsl_to_rgb(h, s, l)
+	return rgb_to_hex(r, g, b)
+end
+
+--- Shift hue by degrees, keeping saturation and lightness
+local function hue_shift(hex, degrees)
+	local r, g, b = hex_to_rgb(hex)
+	local h, s, l = rgb_to_hsl(r, g, b)
+	h = (h + degrees) % 360
+	r, g, b = hsl_to_rgb(h, s, l)
+	return rgb_to_hex(r, g, b)
+end
+
+--- Shortest angular distance between two hues
+local function hue_diff(a, b)
+	local d = math.abs(a - b)
+	return d > 180 and 360 - d or d
+end
+
+-- ── Syntax palette builder ──────────────────────────────────────────
+
+--- Build vibrant, well-separated syntax colors from M3 tokens.
+--- M3 dark-scheme colors are intentionally desaturated for UI surfaces,
+--- but syntax highlighting needs vivid, distinct colors. This function:
+---  1. Boosts saturation of primary/secondary/tertiary
+---  2. Ensures ≥40° hue separation between the three roles
+---  3. Derives dim variants for secondary roles (types, constants)
+local function build_syntax_palette(c)
+	local p = {}
+	for k, v in pairs(c) do
+		p[k] = v
+	end
+
+	local pr, pg, pb = hex_to_rgb(c.primary)
+	local base_h, base_s = rgb_to_hsl(pr, pg, pb)
+
+	local sr, sg, sb = hex_to_rgb(c.secondary)
+	local sec_h = rgb_to_hsl(sr, sg, sb)
+
+	local tr, tg, tb = hex_to_rgb(c.tertiary)
+	local ter_h = rgb_to_hsl(tr, tg, tb)
+
+	-- Vibrant primary — the anchor, bold and saturated
+	p.v_primary = vibrant(c.primary, 0.50, 0.72)
+
+	-- Vibrant secondary — rotate 120° if too close to primary
+	if hue_diff(base_h, sec_h) < 40 or base_s < 0.15 then
+		p.v_secondary = vibrant(hue_shift(c.primary, 120), 0.45, 0.72)
+	else
+		p.v_secondary = vibrant(c.secondary, 0.45, 0.72)
+	end
+
+	-- Vibrant tertiary — rotate 240° if too close to primary or secondary
+	local vsr, vsg, vsb = hex_to_rgb(p.v_secondary)
+	local v_sec_h = rgb_to_hsl(vsr, vsg, vsb)
+	if hue_diff(base_h, ter_h) < 40 or hue_diff(v_sec_h, ter_h) < 40 or base_s < 0.15 then
+		p.v_tertiary = vibrant(hue_shift(c.primary, 240), 0.45, 0.72)
+	else
+		p.v_tertiary = vibrant(c.tertiary, 0.45, 0.72)
+	end
+
+	-- Dim variants — lower lightness for subordinate syntax roles
+	p.v_primary_dim = vibrant(p.v_primary, 0.40, 0.60)
+	p.v_secondary_dim = vibrant(p.v_secondary, 0.35, 0.60)
+	p.v_tertiary_dim = vibrant(p.v_tertiary, 0.35, 0.60)
+
+	return p
+end
+
+-- ── Highlights ──────────────────────────────────────────────────────
+
 local function apply_highlights(c)
 	local hi = vim.api.nvim_set_hl
 
-	-- Base UI
+	-- Base UI — keep transparent backgrounds
 	hi(0, "Normal", { fg = c.on_background, bg = "NONE" })
 	hi(0, "NormalNC", { fg = c.on_background, bg = "NONE" })
 	hi(0, "NormalFloat", { fg = c.on_surface, bg = "NONE" })
@@ -29,7 +171,7 @@ local function apply_highlights(c)
 
 	-- Cursor & selection
 	hi(0, "CursorLine", { bg = "NONE" })
-	hi(0, "CursorLineNr", { fg = c.primary, bold = true, bg = "NONE" })
+	hi(0, "CursorLineNr", { fg = c.v_primary, bold = true, bg = "NONE" })
 	hi(0, "LineNr", { fg = c.outline_variant })
 	hi(0, "Visual", { bg = c.surface_container_high })
 
@@ -58,95 +200,98 @@ local function apply_highlights(c)
 	hi(0, "DiffDelete", { fg = c.error, bg = c.error_container })
 	hi(0, "DiffText", { bg = c.tertiary_container })
 
-	-- Syntax
+	-- ── Syntax (using vibrant palette) ──────────────────────────────
+	-- v_primary   → functions, tags, specials
+	-- v_secondary → keywords, statements, control flow
+	-- v_tertiary  → strings, literals, constants
 	hi(0, "Comment", { fg = c.outline, italic = true })
-	hi(0, "Constant", { fg = c.tertiary_fixed_dim })
-	hi(0, "String", { fg = c.tertiary })
-	hi(0, "Character", { fg = c.tertiary })
-	hi(0, "Number", { fg = c.tertiary_fixed_dim })
-	hi(0, "Boolean", { fg = c.tertiary_fixed_dim })
-	hi(0, "Float", { fg = c.tertiary_fixed_dim })
+	hi(0, "Constant", { fg = c.v_tertiary_dim })
+	hi(0, "String", { fg = c.v_tertiary })
+	hi(0, "Character", { fg = c.v_tertiary })
+	hi(0, "Number", { fg = c.v_tertiary_dim })
+	hi(0, "Boolean", { fg = c.v_tertiary_dim, bold = true })
+	hi(0, "Float", { fg = c.v_tertiary_dim })
 	hi(0, "Identifier", { fg = c.on_surface })
-	hi(0, "Function", { fg = c.primary })
-	hi(0, "Statement", { fg = c.secondary })
-	hi(0, "Conditional", { fg = c.secondary })
-	hi(0, "Repeat", { fg = c.secondary })
-	hi(0, "Label", { fg = c.secondary })
+	hi(0, "Function", { fg = c.v_primary, bold = true })
+	hi(0, "Statement", { fg = c.v_secondary })
+	hi(0, "Conditional", { fg = c.v_secondary })
+	hi(0, "Repeat", { fg = c.v_secondary })
+	hi(0, "Label", { fg = c.v_secondary, italic = true })
 	hi(0, "Operator", { fg = c.on_surface_variant })
-	hi(0, "Keyword", { fg = c.secondary })
+	hi(0, "Keyword", { fg = c.v_secondary, italic = true })
 	hi(0, "Exception", { fg = c.error })
-	hi(0, "PreProc", { fg = c.secondary_fixed_dim })
-	hi(0, "Include", { fg = c.secondary_fixed_dim })
-	hi(0, "Define", { fg = c.secondary_fixed_dim })
-	hi(0, "Macro", { fg = c.secondary_fixed_dim })
-	hi(0, "Type", { fg = c.primary_fixed_dim })
-	hi(0, "StorageClass", { fg = c.secondary })
-	hi(0, "Structure", { fg = c.primary_fixed_dim })
-	hi(0, "Typedef", { fg = c.primary_fixed_dim })
-	hi(0, "Special", { fg = c.primary })
+	hi(0, "PreProc", { fg = c.v_secondary_dim })
+	hi(0, "Include", { fg = c.v_secondary_dim })
+	hi(0, "Define", { fg = c.v_secondary_dim })
+	hi(0, "Macro", { fg = c.v_secondary_dim, bold = true })
+	hi(0, "Type", { fg = c.v_primary_dim })
+	hi(0, "StorageClass", { fg = c.v_secondary, italic = true })
+	hi(0, "Structure", { fg = c.v_primary_dim, bold = true })
+	hi(0, "Typedef", { fg = c.v_primary_dim })
+	hi(0, "Special", { fg = c.v_primary })
 	hi(0, "SpecialComment", { fg = c.outline, italic = true })
 	hi(0, "Error", { fg = c.error })
 	hi(0, "Todo", { fg = c.on_primary_container, bg = c.primary_container, bold = true })
-	hi(0, "Underlined", { fg = c.primary, underline = true })
-	hi(0, "Title", { fg = c.primary, bold = true })
-	hi(0, "Directory", { fg = c.primary })
+	hi(0, "Underlined", { fg = c.v_primary, underline = true })
+	hi(0, "Title", { fg = c.v_primary, bold = true })
+	hi(0, "Directory", { fg = c.v_primary })
 	hi(0, "NonText", { fg = c.outline_variant })
 	hi(0, "SpecialKey", { fg = c.outline_variant })
 	hi(0, "MatchParen", { fg = c.on_primary_container, bg = c.primary_container, bold = true })
 
 	-- Diagnostics
 	hi(0, "DiagnosticError", { fg = c.error })
-	hi(0, "DiagnosticWarn", { fg = c.tertiary })
-	hi(0, "DiagnosticInfo", { fg = c.primary })
+	hi(0, "DiagnosticWarn", { fg = c.v_tertiary })
+	hi(0, "DiagnosticInfo", { fg = c.v_primary })
 	hi(0, "DiagnosticHint", { fg = c.outline })
 	hi(0, "DiagnosticUnderlineError", { undercurl = true, sp = c.error })
-	hi(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = c.tertiary })
-	hi(0, "DiagnosticUnderlineInfo", { undercurl = true, sp = c.primary })
+	hi(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = c.v_tertiary })
+	hi(0, "DiagnosticUnderlineInfo", { undercurl = true, sp = c.v_primary })
 	hi(0, "DiagnosticUnderlineHint", { undercurl = true, sp = c.outline })
 
-	-- TreeSitter links
+	-- ── TreeSitter ──────────────────────────────────────────────────
 	hi(0, "@variable", { fg = c.on_surface })
-	hi(0, "@variable.builtin", { fg = c.secondary })
+	hi(0, "@variable.builtin", { fg = c.v_secondary, italic = true })
 	hi(0, "@variable.parameter", { fg = c.on_surface_variant })
 	hi(0, "@constant", { link = "Constant" })
-	hi(0, "@constant.builtin", { fg = c.tertiary_fixed_dim, bold = true })
+	hi(0, "@constant.builtin", { fg = c.v_tertiary_dim, bold = true })
 	hi(0, "@function", { link = "Function" })
-	hi(0, "@function.builtin", { fg = c.primary, italic = true })
-	hi(0, "@function.call", { fg = c.primary })
-	hi(0, "@function.method", { fg = c.primary })
-	hi(0, "@function.method.call", { fg = c.primary })
+	hi(0, "@function.builtin", { fg = c.v_primary, bold = true, italic = true })
+	hi(0, "@function.call", { fg = c.v_primary })
+	hi(0, "@function.method", { fg = c.v_primary })
+	hi(0, "@function.method.call", { fg = c.v_primary })
 	hi(0, "@keyword", { link = "Keyword" })
-	hi(0, "@keyword.return", { fg = c.secondary, bold = true })
-	hi(0, "@keyword.function", { fg = c.secondary })
+	hi(0, "@keyword.return", { fg = c.v_secondary, bold = true })
+	hi(0, "@keyword.function", { fg = c.v_secondary, italic = true })
 	hi(0, "@keyword.operator", { fg = c.on_surface_variant })
 	hi(0, "@string", { link = "String" })
-	hi(0, "@string.escape", { fg = c.secondary })
+	hi(0, "@string.escape", { fg = c.v_secondary, bold = true })
 	hi(0, "@type", { link = "Type" })
-	hi(0, "@type.builtin", { fg = c.primary_fixed_dim, italic = true })
+	hi(0, "@type.builtin", { fg = c.v_primary_dim, italic = true })
 	hi(0, "@property", { fg = c.on_surface_variant })
-	hi(0, "@constructor", { fg = c.primary_fixed_dim })
+	hi(0, "@constructor", { fg = c.v_primary_dim })
 	hi(0, "@operator", { link = "Operator" })
 	hi(0, "@punctuation", { fg = c.on_surface_variant })
 	hi(0, "@punctuation.bracket", { fg = c.on_surface_variant })
 	hi(0, "@punctuation.delimiter", { fg = c.on_surface_variant })
 	hi(0, "@comment", { link = "Comment" })
-	hi(0, "@tag", { fg = c.primary })
-	hi(0, "@tag.attribute", { fg = c.tertiary })
+	hi(0, "@tag", { fg = c.v_primary })
+	hi(0, "@tag.attribute", { fg = c.v_tertiary, italic = true })
 	hi(0, "@tag.delimiter", { fg = c.on_surface_variant })
 	hi(0, "@module", { fg = c.on_surface_variant })
 	hi(0, "@number", { link = "Number" })
 	hi(0, "@boolean", { link = "Boolean" })
 
 	-- Git signs
-	hi(0, "GitSignsAdd", { fg = c.primary })
-	hi(0, "GitSignsChange", { fg = c.secondary })
+	hi(0, "GitSignsAdd", { fg = c.v_primary })
+	hi(0, "GitSignsChange", { fg = c.v_secondary })
 	hi(0, "GitSignsDelete", { fg = c.error })
 
 	-- Telescope
 	hi(0, "TelescopeNormal", { fg = c.on_surface, bg = "NONE" })
 	hi(0, "TelescopeBorder", { fg = c.outline_variant, bg = "NONE" })
 	hi(0, "TelescopeSelection", { bg = c.surface_container_high })
-	hi(0, "TelescopeMatching", { fg = c.primary, bold = true })
+	hi(0, "TelescopeMatching", { fg = c.v_primary, bold = true })
 
 	-- Trouble
 	hi(0, "TroubleNormal", { fg = c.on_surface, bg = "NONE" })
@@ -158,7 +303,8 @@ function M.apply()
 	if colors then
 		vim.cmd("hi clear")
 		vim.o.termguicolors = true
-		apply_highlights(colors)
+		local palette = build_syntax_palette(colors)
+		apply_highlights(palette)
 	else
 		-- Fallback: load Everforest
 		pcall(function()
@@ -199,9 +345,9 @@ local function start_watcher()
 		end
 		if filename and filename:match("neovim_colors%.lua$") then
 			vim.schedule(function()
-				-- Clear dofile cache
 				package.loaded[colors_path] = nil
 				M.apply()
+				vim.api.nvim_exec_autocmds("User", { pattern = "MaterialYouReload" })
 			end)
 		end
 	end)

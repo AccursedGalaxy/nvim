@@ -3,15 +3,17 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons", "cursed.nvim" },
 	config = function()
 		local lualine = require("lualine")
-		local ok, cursed = pcall(require, "cursed.statusline")
+		local ok_cursed, cursed = pcall(require, "cursed.statusline")
 
 		local colors_path = vim.fn.expand("~/.local/state/quickshell/user/generated/neovim_colors.lua")
-		local ok_colors, c = pcall(dofile, colors_path)
 
-		local theme
-		if ok_colors and c then
+		local function build_theme()
+			local ok, c = pcall(dofile, colors_path)
+			if not ok or not c then
+				return "everforest"
+			end
 			local none = "NONE"
-			theme = {
+			return {
 				normal = {
 					a = { fg = c.on_primary, bg = c.primary },
 					b = { fg = c.on_surface_variant, bg = none },
@@ -43,15 +45,22 @@ return {
 					c = { fg = c.outline, bg = none },
 				},
 			}
-		else
-			theme = "everforest"
 		end
 
-		lualine.setup({
-			options = { theme = theme },
-			sections = {
-				lualine_x = ok and { cursed.component } or {},
-			},
+		local function setup_lualine()
+			lualine.setup({
+				options = { theme = build_theme() },
+				sections = {
+					lualine_x = ok_cursed and { cursed.component } or {},
+				},
+			})
+		end
+
+		setup_lualine()
+
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "MaterialYouReload",
+			callback = setup_lualine,
 		})
 	end,
 }
