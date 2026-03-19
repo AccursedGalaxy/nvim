@@ -79,8 +79,6 @@ return {
 				end,
 			})
 
-			vim.api.nvim_set_hl(0, "FloatBorder", { link = "DiagnosticHint" })
-
 			-- Override lua_ls to know about vim globals
 			vim.lsp.config("lua_ls", {
 				settings = {

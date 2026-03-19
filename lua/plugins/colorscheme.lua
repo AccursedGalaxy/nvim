@@ -299,6 +299,52 @@ local function apply_highlights(c)
 
 	-- Trouble
 	hi(0, "TroubleNormal", { fg = c.on_surface, bg = "NONE" })
+
+	-- Alpha (dashboard)
+	hi(0, "AlphaHeader", { fg = c.v_primary })
+	hi(0, "AlphaButtons", { fg = c.on_surface })
+	hi(0, "AlphaShortcut", { fg = c.v_secondary })
+	hi(0, "AlphaFooter", { fg = c.outline, italic = true })
+
+	-- Blink.cmp (completion)
+	hi(0, "BlinkCmpMenu", { fg = c.on_surface, bg = c.surface_container })
+	hi(0, "BlinkCmpMenuBorder", { fg = c.outline_variant, bg = c.surface_container })
+	hi(0, "BlinkCmpMenuSelection", { bg = c.primary_container, fg = c.on_primary_container })
+	hi(0, "BlinkCmpLabel", { fg = c.on_surface })
+	hi(0, "BlinkCmpLabelMatch", { fg = c.v_primary, bold = true })
+	hi(0, "BlinkCmpLabelDescription", { fg = c.outline })
+	hi(0, "BlinkCmpKind", { fg = c.v_secondary })
+	hi(0, "BlinkCmpDoc", { fg = c.on_surface, bg = c.surface_container })
+	hi(0, "BlinkCmpDocBorder", { fg = c.outline_variant, bg = c.surface_container })
+	hi(0, "BlinkCmpSignatureHelp", { fg = c.on_surface, bg = c.surface_container })
+	hi(0, "BlinkCmpSignatureHelpBorder", { fg = c.outline_variant, bg = c.surface_container })
+
+	-- Mason
+	hi(0, "MasonNormal", { fg = c.on_surface, bg = c.surface_container })
+	hi(0, "MasonHeader", { fg = c.on_primary, bg = c.primary, bold = true })
+	hi(0, "MasonHeaderSecondary", { fg = c.on_secondary, bg = c.secondary, bold = true })
+	hi(0, "MasonHighlight", { fg = c.v_primary })
+	hi(0, "MasonHighlightBlock", { fg = c.on_primary, bg = c.primary })
+	hi(0, "MasonHighlightBlockBold", { fg = c.on_primary, bg = c.primary, bold = true })
+	hi(0, "MasonMuted", { fg = c.outline })
+	hi(0, "MasonMutedBlock", { fg = c.on_surface_variant, bg = c.surface_container_high })
+
+	-- Render-markdown
+	hi(0, "RenderMarkdownH1Bg", { bg = c.primary_container, fg = c.on_primary_container, bold = true })
+	hi(0, "RenderMarkdownH2Bg", { bg = c.secondary_container, fg = c.on_secondary_container, bold = true })
+	hi(0, "RenderMarkdownH3Bg", { bg = c.tertiary_container, fg = c.on_tertiary_container, bold = true })
+	hi(0, "RenderMarkdownH4Bg", { bg = c.surface_container_high, fg = c.on_surface, bold = true })
+	hi(0, "RenderMarkdownH5Bg", { bg = c.surface_container_high, fg = c.on_surface })
+	hi(0, "RenderMarkdownH6Bg", { bg = c.surface_container, fg = c.on_surface_variant })
+	hi(0, "RenderMarkdownCode", { bg = c.surface_container })
+	hi(0, "RenderMarkdownCodeInline", { bg = c.surface_container_high })
+
+	-- Harpoon
+	hi(0, "HarpoonWindow", { fg = c.on_surface, bg = c.surface_container })
+	hi(0, "HarpoonBorder", { fg = c.outline_variant, bg = c.surface_container })
+
+	-- LSP floating windows
+	hi(0, "LspInfoBorder", { fg = c.outline_variant })
 end
 
 --- Apply the Material You colorscheme, or fall back to Everforest
