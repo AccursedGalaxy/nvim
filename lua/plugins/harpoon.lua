@@ -27,8 +27,31 @@ return {
 				harpoon:list():add()
 			end, { desc = "Harpoon: Add file" })
 			vim.keymap.set("n", "<leader>hh", function()
-				harpoon.ui:toggle_quick_menu(harpoon:list())
-			end, { desc = "Harpoon: Toggle menu" })
+				local conf = require("telescope.config").values
+				local finders = require("telescope.finders")
+				local pickers = require("telescope.pickers")
+				local make_entry = require("telescope.make_entry")
+
+				local items = harpoon:list().items
+				local files = {}
+				for _, item in ipairs(items) do
+					if item.value and item.value ~= "" then
+						table.insert(files, item.value)
+					end
+				end
+
+				pickers
+					.new({}, {
+						prompt_title = "Harpoon",
+						finder = finders.new_table({
+							results = files,
+							entry_maker = make_entry.gen_from_file({}),
+						}),
+						sorter = conf.file_sorter({}),
+						previewer = conf.file_previewer({}),
+					})
+					:find()
+			end, { desc = "Harpoon: Toggle menu (Telescope)" })
 
 			-- Quick select keymaps for first 4 slots (customize as needed)
 			vim.keymap.set("n", "<C-s>", function()

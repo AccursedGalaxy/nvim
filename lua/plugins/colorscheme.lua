@@ -340,8 +340,8 @@ local function apply_highlights(c)
 	hi(0, "RenderMarkdownCodeInline", { bg = c.surface_container_high })
 
 	-- Harpoon
-	hi(0, "HarpoonWindow", { fg = c.on_surface, bg = c.surface_container })
-	hi(0, "HarpoonBorder", { fg = c.outline_variant, bg = c.surface_container })
+	hi(0, "HarpoonWindow", { fg = c.on_surface, bg = "NONE" })
+	hi(0, "HarpoonBorder", { fg = c.outline_variant, bg = "NONE" })
 
 	-- LSP floating windows
 	hi(0, "LspInfoBorder", { fg = c.outline_variant })
