@@ -15,14 +15,14 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Apply custom colorscheme early so lazy's UI uses it
+require("core.theme").apply()
+
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
-		-- import your plugins
 		{ import = "plugins" },
 	},
-	-- Configure any other settings here. See the documentation for more details.
-	-- install = { colorscheme = { "everforest" } },
 	checker = { enabled = false },
 	change_detection = { notify = false },
 	rocks = { enabled = false },
