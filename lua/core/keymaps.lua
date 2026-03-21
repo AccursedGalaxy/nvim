@@ -26,4 +26,4 @@ map("v", ">", ">gv", { desc = "Indent right" })
 -- Run command in a new tmux pane below
 map("n", "<leader>tr", function()
 	vim.fn.system("tmux split-window -v -l 8 ; $SHELL")
-end, { desc = "Run command in tmux pane below" })
+end, { desc = "Open terminal in small pane below" })
