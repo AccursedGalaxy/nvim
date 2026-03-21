@@ -20,12 +20,12 @@ return {
 			dashboard.section.header.opts = { hl = "AlphaHeader", position = "center" }
 
 			dashboard.section.buttons.val = {
-				dashboard.button("n", "  New file", ":ene <BAR> startinsert <CR>"),
-				dashboard.button("f", "  Find file", "<cmd>Telescope find_files<CR>"),
-				dashboard.button("r", "  Recent files", "<cmd>Telescope oldfiles<CR>"),
-				dashboard.button("c", "  Config", ":e $MYVIMRC <CR>"),
+				dashboard.button("n", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
+				dashboard.button("f", "󰈞  Find file", "<cmd>Telescope find_files<CR>"),
+				dashboard.button("r", "󰊄  Recent files", "<cmd>Telescope oldfiles<CR>"),
+				dashboard.button("c", "󰒓  Config", ":e $MYVIMRC <CR>"),
 				dashboard.button("l", "󰒲  Lazy", "<cmd>Lazy<CR>"),
-				dashboard.button("q", "  Quit", ":qa<CR>"),
+				dashboard.button("q", "󰩈  Quit", ":qa<CR>"),
 			}
 
 			for _, button in ipairs(dashboard.section.buttons.val) do
