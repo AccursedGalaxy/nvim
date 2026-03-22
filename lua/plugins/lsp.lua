@@ -24,7 +24,9 @@ return {
 				"ts_ls", -- TypeScript/JavaScript
 			},
 			-- automatically calls vim.lsp.enable() for installed servers
-			automatic_enable = true,
+			automatic_enable = {
+				exclude = { "glint" },
+			},
 		},
 		dependencies = {
 			"mason-org/mason.nvim",
