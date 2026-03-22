@@ -5,11 +5,9 @@ return {
 		local lualine = require("lualine")
 		local ok_cursed, cursed = pcall(require, "cursed.statusline")
 
-		local colors_path = vim.fn.expand("~/.local/state/quickshell/user/generated/neovim_colors.lua")
-
 		local function build_theme()
-			local ok, c = pcall(dofile, colors_path)
-			if not ok or not c then
+			local c = require("core.theme").colors()
+			if not c then
 				return "everforest"
 			end
 			local none = "NONE"

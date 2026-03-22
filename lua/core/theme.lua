@@ -1,5 +1,4 @@
-local colors_path = vim.fn.expand("~/.local/state/quickshell/user/generated/neovim_colors.lua")
-local colors_dir = vim.fn.expand("~/.local/state/quickshell/user/generated")
+local colors_path = vim.fn.expand("~/.config/matugen/generated/neovim-colors.lua")
 
 local M = {}
 
@@ -405,25 +404,25 @@ function M.apply()
 	end
 end
 
---- Start watching the generated directory for color changes
+--- Listen for SIGUSR1 to reload colors (sent by matugen post_hook)
 function M.start_watcher()
-	local handle = vim.uv.new_fs_event()
-	if not handle then
+	local signal = vim.uv.new_signal()
+	if not signal then
 		return
 	end
 
-	handle:start(colors_dir, {}, function(err, filename)
-		if err then
-			return
-		end
-		if filename and filename:match("neovim_colors%.lua$") then
-			vim.schedule(function()
-				package.loaded[colors_path] = nil
-				M.apply()
-				vim.api.nvim_exec_autocmds("User", { pattern = "MaterialYouReload" })
-			end)
-		end
+	signal:start("sigusr1", function()
+		vim.schedule(function()
+			package.loaded[colors_path] = nil
+			M.apply()
+			vim.api.nvim_exec_autocmds("User", { pattern = "MaterialYouReload" })
+		end)
 	end)
+end
+
+--- Return the current Material You colors (nil if unavailable)
+function M.colors()
+	return load_colors()
 end
 
 return M
