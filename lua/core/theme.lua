@@ -79,16 +79,25 @@ local function hsl_to_rgb(h, s, l)
 	return hue2rgb(p, q, hn + 1 / 3), hue2rgb(p, q, hn), hue2rgb(p, q, hn - 1 / 3)
 end
 
---- Gently boost saturation and lightness for syntax visibility on dark bg
+--- Boost saturation and clamp lightness for syntax visibility on dark bg
 --- while preserving the natural feel of the M3 palette.
 ---@param hex string input color
 ---@param sat_boost number how much to add to saturation (0-1), clamped at 1
 ---@param l_floor number minimum lightness to ensure readability
-local function enliven(hex, sat_boost, l_floor)
+---@param l_ceil number|nil maximum lightness to prevent washed-out colors
+local function enliven(hex, sat_boost, l_floor, l_ceil)
 	local r, g, b = hex_to_rgb(hex)
 	local h, s, l = rgb_to_hsl(r, g, b)
-	s = math.min(s + sat_boost, 1.0)
+	-- Near-white colors (l > 0.85) have hidden saturation — push harder
+	if l > 0.85 then
+		s = math.min(s + sat_boost + 0.20, 1.0)
+	else
+		s = math.min(s + sat_boost, 1.0)
+	end
 	l = math.max(l, l_floor)
+	if l_ceil then
+		l = math.min(l, l_ceil)
+	end
 	r, g, b = hsl_to_rgb(h, s, l)
 	return rgb_to_hex(r, g, b)
 end
@@ -131,29 +140,29 @@ local function build_syntax_palette(c)
 	local tr, tg, tb = hex_to_rgb(c.tertiary)
 	local ter_h = rgb_to_hsl(tr, tg, tb)
 
-	-- Primary — gentle saturation nudge, ensure readable lightness
-	p.v_primary = enliven(c.primary, 0.15, 0.65)
+	-- Primary — boost saturation, cap lightness to keep it vivid
+	p.v_primary = enliven(c.primary, 0.20, 0.65, 0.78)
 
 	-- Secondary — rotate hue only if truly indistinguishable from primary
 	if hue_diff(base_h, sec_h) < 30 and base_s < 0.12 then
-		p.v_secondary = enliven(hue_shift(c.primary, 120), 0.15, 0.65)
+		p.v_secondary = enliven(hue_shift(c.primary, 120), 0.20, 0.65, 0.78)
 	else
-		p.v_secondary = enliven(c.secondary, 0.15, 0.65)
+		p.v_secondary = enliven(c.secondary, 0.20, 0.65, 0.78)
 	end
 
 	-- Tertiary — rotate only when palette is genuinely monochromatic
 	local vsr, vsg, vsb = hex_to_rgb(p.v_secondary)
 	local v_sec_h = rgb_to_hsl(vsr, vsg, vsb)
 	if (hue_diff(base_h, ter_h) < 30 and base_s < 0.12) or hue_diff(v_sec_h, ter_h) < 25 then
-		p.v_tertiary = enliven(hue_shift(c.primary, 240), 0.15, 0.65)
+		p.v_tertiary = enliven(hue_shift(c.primary, 240), 0.20, 0.65, 0.78)
 	else
-		p.v_tertiary = enliven(c.tertiary, 0.15, 0.65)
+		p.v_tertiary = enliven(c.tertiary, 0.20, 0.65, 0.78)
 	end
 
 	-- Dim variants — slightly muted for subordinate roles (types, constants)
-	p.v_primary_dim = enliven(c.primary_fixed_dim, 0.10, 0.55)
-	p.v_secondary_dim = enliven(c.secondary_fixed_dim, 0.10, 0.55)
-	p.v_tertiary_dim = enliven(c.tertiary_fixed_dim, 0.10, 0.55)
+	p.v_primary_dim = enliven(c.primary_fixed_dim, 0.15, 0.55, 0.72)
+	p.v_secondary_dim = enliven(c.secondary_fixed_dim, 0.15, 0.55, 0.72)
+	p.v_tertiary_dim = enliven(c.tertiary_fixed_dim, 0.15, 0.55, 0.72)
 
 	return p
 end
