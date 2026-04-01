@@ -20,6 +20,7 @@ return {
 			ensure_installed = {
 				"lua_ls", -- Lua
 				"pyright", -- Python
+				"ruff", -- Python linting (via LSP)
 				"gopls", -- Go
 				"ts_ls", -- TypeScript/JavaScript
 			},
@@ -84,6 +85,14 @@ return {
 				end,
 			})
 
+			-- Ruff: fast Python linter (disable hover/rename — pyright handles those)
+			vim.lsp.config("ruff", {
+				on_attach = function(client)
+					client.server_capabilities.hoverProvider = false
+					client.server_capabilities.renameProvider = false
+				end,
+			})
+
 			-- Override lua_ls to know about vim globals
 			vim.lsp.config("lua_ls", {
 				settings = {
@@ -94,8 +103,12 @@ return {
 				},
 			})
 
-			-- Auto-detect .venv for pyright, re-evaluated on dir changes
+			-- Detect the active Python venv: prefer $VIRTUAL_ENV, then walk up for .venv
 			local function find_venv()
+				local venv_env = os.getenv("VIRTUAL_ENV")
+				if venv_env and vim.fn.isdirectory(venv_env) == 1 then
+					return venv_env
+				end
 				local dir = vim.fn.getcwd()
 				while dir ~= "/" do
 					local venv = dir .. "/.venv"
@@ -106,18 +119,38 @@ return {
 				end
 			end
 
+			-- Push the detected venv to any running pyright clients
 			local function update_pyright_venv()
 				local venv_path = find_venv()
-				if venv_path then
-					local clients = vim.lsp.get_clients({ name = "pyright" })
-					for _, client in ipairs(clients) do
-						client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
-							python = { pythonPath = venv_path .. "/bin/python" },
-						})
-						client:notify("workspace/didChangeConfiguration", { settings = client.settings })
-					end
+				if not venv_path then
+					return
 				end
+				local python_path = venv_path .. "/bin/python"
+				-- Update running clients
+				local clients = vim.lsp.get_clients({ name = "pyright" })
+				for _, client in ipairs(clients) do
+					client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
+						python = { pythonPath = python_path },
+					})
+					client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+				end
+				-- Also update the static config so newly started clients pick it up
+				vim.lsp.config("pyright", {
+					settings = {
+						python = {
+							pythonPath = python_path,
+							analysis = {
+								autoSearchPaths = true,
+								useLibraryCodeForTypes = true,
+								diagnosticMode = "openFilesOnly",
+							},
+						},
+					},
+				})
 			end
+
+			-- Run once immediately so the static config is set before any server starts
+			update_pyright_venv()
 
 			local venv_group = vim.api.nvim_create_augroup("UserPyrightVenv", { clear = true })
 			vim.api.nvim_create_autocmd("LspAttach", {
